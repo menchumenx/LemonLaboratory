@@ -26,8 +26,8 @@
     ***git branch -M main*** renombra la rama actual a "main". La opción -M indica que se debe realizar un cambio forzado si la rama "main" ya existe.
     ***git push -u origin main*** empuja los cambios locales al repositorio remoto en la rama "main". La opción -u establece la rama "main" como la rama de seguimiento predeterminada.
 
-    <img src="./assets/creado_repo" alt="Creando repositorio en github">
-    <img src="./assets/configurando" alt="configurando">
+    <img src="./assets/creado_repo.png" alt="Creando repositorio en github">
+    ![Configurando](./assets/configurando.png)
 
 
     
