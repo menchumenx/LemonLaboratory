@@ -27,7 +27,9 @@
     ***git push -u origin main*** empuja los cambios locales al repositorio remoto en la rama "main". La opción -u establece la rama "main" como la rama de seguimiento predeterminada.
 
     <img src="./assets/creado_repo.png" alt="Creando repositorio en github">
-    ![Configurando](./assets/configurando.png)
+    
+    <img src="./assets/configurando.png" alt="Creando repositorio en github">
+
 
 
     
