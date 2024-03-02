@@ -30,6 +30,29 @@
     
     <img src="./assets/configurando.png" alt="Creando repositorio en github">
 
+    ### CREANDO UNA RAMA
+    - Para crear una rama debemos estar posicionados sobre la rama principal, en mi caso **main**. Una vez ahí, haremos uso del comando ***git branch nombre_de_mi_rama*** para crearla.
+    - Una vez creada he realizado cambios en mi archibo princial *pruebas.js*, creando un nuevo console.log(). Ademas he añadido una imagen a la carpeta assets.
+    - Ahora que ya he realizado todos los cambios en mi rama, necesito subirla a remoto. Para ello seguire de nuevo los pasos anteriores:
+    ```
+    git add .
+    git status
+    git commit -m"creando mi primera rama"
+    git push --set-upstream origin development
+    ```
+  - Ahora ya tengo mi rama en remoto, pero necesito que estas modificaciones esten en mi rama principal *main*. Por tando debo mergear mi rama con main. Antes de hacer el mergeo, es conveniente realizar un ***git pull*** sobre main, por si se hubieran subido cambios desde otras ramas.
+  - Hecho el pull, haremos uso del comando ***git merge development** para mergerar nuestra rama development con main.
+  - si es necesario resolveremos los confilctos. En mi caso no ha sido necesario.
+  - Por último ya que hay nuevos cambios sobre la rama, volveremos a repetir nuestr *mantra*
+    ```
+    git add .
+    git status
+    git commit -m"creando mi primera rama"
+    git push
+    ```
+  - Con esto habriamos actualizado nuestra rama principal *main* con la nueva rama creada *development*
+
+
 
 
     
