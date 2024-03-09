@@ -12,6 +12,31 @@ Pasos:
 
 ---
 
+# IMPLEMENTACIÓN DE SANDBOX EN REPOSITORIO PERSONAL
+
+```bash
+git clone https://github.com/menchumenx/LemonLaboratory.git
+cd LemonLaboratory
+git remote add sandbox https://github.com/menchumenx/4.laboratorio_modulo3_variables.git
+git remote -v
+git fetch sandbox
+git checkout -b sandbox-practice sandbox/main
+
+# despues de realizar las modificaciones y prácticas en la rama sandbox-practice
+git add .
+git commit -m "Mensaje descriptivo de tus cambios"
+git push origin sandbox-practice
+
+# fusión con rama principal
+git checkout main
+git merge sandbox-practice --allow-unrelated-histories
+git add .
+git commit -m "Merge sandbox-practice into main"
+git push origin main
+```
+
+---
+
 # LAVORATORIO MODULO 3 VARIABLES
 
 ### Grupos musicales
