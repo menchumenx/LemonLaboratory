@@ -3,6 +3,7 @@ import "./style.css";
 
 console.log("Hello Typescript!");
 
+// declaración de interface
 interface MusicGroup {
     groupName : string,
     realiseYear: number,
@@ -55,12 +56,11 @@ function printGroups(musicArrGroups : MusicGroup[]): void{
     
     for(let group of musicArrGroups){
 
-        let printData :string = `\n Año de fundación: ${group.realiseYear} \n ¿Esta en activo? : ${group.realiseYear} \n Genero musical: ${group.musicalGenre} \n`;
+        let printData :string = `\n Año de fundación: ${group.realiseYear} \n ¿Esta en activo? : ${group.isActive} \n Genero musical: ${group.musicalGenre} \n`;
 
        console.log(`%c${group.groupName}`, 'font-weight: bold; background-color: green; font-size:16px', printData)
          
-    }
-    
+    } 
 }
 
 // definición de parámetro y llamada a la función
