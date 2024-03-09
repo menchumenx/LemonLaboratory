@@ -50,6 +50,7 @@ function calTotalPerPersonStr(ticketAmount, n_friends, drinksAmount) {
 ```
 
 
+
 #### Impelentacion en TS
 Las funciones ***ccalTotalPerPersonTS()*** y ***calTotalPerPersonString()*** están diseñadas para manejar el escenario propuesto devolviendo ya sea un valor numérico o una cadena formateada, según su preferencia.
 
@@ -58,14 +59,14 @@ Para este caso, los parámetros de entrad y de salida son los mismos que los imp
 
 - #### USO
 
-> **1. Compilación**
+> **1. Compilación: **
 > Para compilar los archivos TypeScript, puede utilizar el compilador TypeScript (tsc) de la siguiente manera:
 ```zsh
 tsc index.ts
 ```
 
-> **1. Compilación**
-> PPara ejecutar el archivo compilado con Node.js, puede usar el siguiente comando:
+> **2. Ejecución: **
+> Para ejecutar el archivo compilado con Node.js, puede usar el siguiente comando:
 ```zsh
 node index.js
 ```
