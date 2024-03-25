@@ -1,0 +1,11 @@
+{
+  "name": "7.laboratorio_modulo6_imports",
+  "version": "1.0.0",
+  "description": "Vamos a implementar el juego de cartas de las 7 1/2 en modo solitario.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
