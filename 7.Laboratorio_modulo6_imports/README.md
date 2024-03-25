@@ -3,7 +3,8 @@
 # Índice
 
 1. [Juego de las Siete y Media](#juego-de-las-siete-y-media)
-2. [Explicación de archivos](#explicación-de-archivos)
+2. [Enunciado](#Enunciado)
+3. [Explicación de archivos](#explicación-de-archivos)
    - [main.js](#mainjs)
       - [Importaciones](#importaciones)
       - [Variables globales](#variables-globales)
@@ -21,46 +22,35 @@
 ---
 
 # Enunciado
-Vamos a implementar el juego de cartas de las 7 1/2 en modo solitario.
+¿Te acuerdas de la práctica de condicionales? En ella, implementamos el juego de cartas de las siete y media. ¿Qué te parece si hacemos una limpia 😀?
+
+En esta práctica vamos a refactorizar el código para que sea más mantenible y reutilizable, siguiendo los mismos principios que aplicamos en este módulo.
 
 ---
 
 ## A implementar:
 
 ## Implementado 
-### 1. Mostrar puntuación:
-Arranca por crear una variable que almacena la puntuación que lleve el usuario:
+. ### Modelo
+Extrae la parte que define el modelo de datos a un fichero model.ts y haz limpia en main.ts.
 
-Crea una variable para almacenar la puntuación, inicialmente será 0.
-Crea un div en el HTML en el que podamos mostrar la puntuación.
-Crea una función que se llame muestraPuntuacion que muestre la puntuación actual en el div.
-Invoca a la función en cuanto este disponible el DOM.
+Asegúrate que sigue todo funcionando y no salen errores por consola.
 
-### 2. Pedir carta:
-Implementa la funcionalidad de pedir carta, ¿En qué consiste?
+. ### Motor
+Extrae la parte que define las reglas a un fichero motor.ts y haz limpia en main.ts.
 
-Hay que generar una función que nos devuelva una carta aleatoria, la podemos llamar dameCarta.
-Para ello exponemos un botón en el HTML que al pulsarlo llame a la función dameCarta.
-Para probar este caso, de momento muestra la carta elegida por consola.
+Asegúrate que sigue todo funcionando y no salen errores por consola.
 
-### 3. Mostrar carta:
-Crea una función que se llame muestraCarta que muestre la carta que le pasemos por parámetro
+. ### UI
+Extrae la parte que define el UI a un fichero ui.ts y haz limpia en main.ts.
 
-### 4. Sumar puntuación:
-Una vez que le hemos dado la carta al usuario, tenemos que sumar la puntuación de la carta a la puntuación total.
+Asegúrate que sigue todo funcionando y no salen errores por consola
 
-### 5. Game over:
-Si el usuario se pasa de 7,5 puntos, el juego termina y se muestra un mensaje de Game Over, además el usuario no puede seguir pidiendo cartas.
-
-### 6. Me planto:
-Una vez que el usuario ha terminado la partida (sea porque se ha plantado o porque ha perdido), se le muestra un botón para que pueda empezar una nueva partida.
-
-### 7. Estila la aplicación:
-Utilizando CSS, estila la aplicación (margenes, espacios, colores, etc...) para que tenga el mejor aspecto posible
 
 ## Sin Implementar 
-### Apartado opcional -> Saber lo que habría pasado
-Una vez que el usuario ya se ha plantado, se le muestra un botón para que pueda saber lo que habría pasado si hubiera seguido pidiendo cartas.
+### Apartado opcional -> Objeto partida
+¿Te animas a crear un objeto partida y su método de ayuda para crear una partida?
+Asegúrate que sigue todo funcionando y no salen errores por consola.
 
 
 ---
