@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Siete y media</title>
+</head>
+
+<body>
+
+    <main>
+        <h1>JUEGO DE LAS <span>SIETE Y MEDIA</span></h1>
+
+        <div class="cards">
+            <img id="default" src="https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg" alt="">
+            <img id="mostrarCarta" src="https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg"
+                alt="">
+        </div>
+        <div class="message" style="display: none;">
+            <div class="message-data">
+                <div id="message-icon"></div>
+                <p id="message-text"></p>
+            </div>
+        </div>
+    
+    
+        <div class="handlers">
+            <div class="score">
+                <p>Baza: </p>
+                <div id="score"></div>
+            </div>
+    
+            <div class="buttons">
+                <button id="carta">Dame Carta</button>
+                <button id="stop">Me planto</button>
+                <button id="reset">New game</button>
+            </div>
+    
+        </div>
+    
+    </main>
+
+    <!-- importación de scripts -->
+    <script src="./siete-y-media.js"></script>
+</body>
+
+</html>
