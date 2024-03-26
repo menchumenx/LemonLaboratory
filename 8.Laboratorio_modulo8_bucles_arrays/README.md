@@ -11,17 +11,21 @@
 ---
 # 0. Pasos para trabajar con el proyecto
 Para comenzar a trabajar con el proyecto deberás seguir loos siguientes pasos:
-    > Descarga los paquetes que necesitas usar para este proyecto con el comando:
+Para comenzar a trabajar con el proyecto deberás seguir los siguientes pasos:
+
+1. Descarga los paquetes que necesitas usar para este proyecto con el comando:
     ```terminal
-        mpm instal
+    npm install
     ```
-    > Compila lor archivos para crear los archivos ejecutables
+
+2. Compila los archivos para crear los archivos ejecutables:
     ```terminal
-        tsc
+    tsc
     ```
-    > Una vez compilado ejecuta el archivo principal *main.js*
+
+3. Una vez compilado, ejecuta el archivo principal *main.js*:
     ```terminal
-        node main.js
+    node main.js
     ```
 
 # 1. Ejecución 
