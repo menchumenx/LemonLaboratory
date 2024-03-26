@@ -1,48 +1,53 @@
 # Índice
 
-1. [Enunciado](#Enunciado)
-2. [Explicación de archivos](#explicación-de-archivos)
-
+0. [Pasos para trabajar con el proyecto](#0-pasos-para-trabajar-con-el-proyecto)
+1. [Ejecución](#1-ejecución)
+2. [Compilación](#2-compilación)
+3. [Explicación de archivos](#3-explicación-de-archivos)
+    - [main.js](#main-js)
+    - [bucles](#bucles)
 
 
 ---
+# 0. Pasos para trabajar con el proyecto
+Para comenzar a trabajar con el proyecto deberás seguir loos siguientes pasos:
+    - Descarga los paquetes que necesitas usar para este proyecto con el comando:
+    ```terminal
+        mpm instal
+    ```
+    - Compila lor archivos para crear los archivos ejecutables
+    ```terminal
+        tsc
+    ```
+    - Una vez compilado ejecuta el archivo principal *main.js*
+    ```terminal
+        node main.js
+    ```
 
-# Enunciado
-Estamos desarrollando un software hospitalario, y el cliente nos pide poder realizar una serie se operaciones sobre una lista de pacientes.
+# 1. Ejecución 
+Para ejecutar los distintos archivos, asociacos a los 3 labiratorios del móduloo 8 Bucles y Arrays se debe ejecutar el archivo [***8.0.main.js***](###main.js) que se necuentra dento de la carpeta **Ejecutables**
 
 ---
 
-## A implementar:
+# 2. Compilación
+Si se desea compilar de nuevo cualquiera de los archivos *.ts* solo se necesitará hacer uso del comando:
+```terminal
+    tsc
+```
+Al usar este comando se compilarán todos los archivos con extensión *.ts*
+Los archivos ejecutables se guardarán en la carpeta de ejecutables.
+---
 
-## Implementado (obligatorio)
+# 3. Explicación de archivos
+### main-js
+Este archivo es el archivo ejecutable principal. En el se llama a todas las funciones de los tres lavoratorios del módulo de bucles y arrays.
+Se puede encontrar en la carpeta **ejecutables** con el resto de archivos ejcutables correspondientes a cada lavoratorio.
 
-- ### Apartado 1
-    - a) Queremos extraer la lista de paciente que están asignados a la especialidad de Pediatría
-    ```javascript
-        const obtenPacientesAsignadosAPediatria = (
-        pacientes: Pacientes[]
-        ): Pacientes[] => {
-        // Tu implementación aquí :)
-        };
-    ```
+Debes descomentar cada uno de los retos que se quiere ejecutar.
 
-    - b) Queremos extraer la lista de pacientes asignados a Pediatría y que tengan una edad menor de 10 años.
-    ```javascript
-        const obtenPacientesAsignadosAPediatriaYMenorDeDiezAnios = (
-        pacientes: Pacientes[]
-        ): Pacientes[] => {
-        // Tu implementación aquí :)
-        };
-    ```
+### bucles
+Archivo que contiene el desarrollo para el lavoratorio Laboratorio Módulo 8.1 - Bucles
 
 
-- ### Apartado 2
-- ### Apartado 3
-- ### Apartado 4
-
-## Sin Implementar (opcional)
-### Apartado opcional -> Objeto partida
-¿Te animas a crear un objeto partida y su método de ayuda para crear una partida?
-Asegúrate que sigue todo funcionando y no salen errores por consola.
 
 
