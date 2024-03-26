@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "es5", // Compilar a ECMAScript 5
+    "lib": ["es2016", "dom"],
+    "module": "commonjs", // Formato de módulo CommonJS
+    "outDir": "./ejecutables", // Directorio de salida para los archivos compilados
+    "strict": true, // Habilitar todas las opciones estrictas
+    "strictNullChecks": true, // Comprobación estricta de nulos
+    "noImplicitAny": true, // No permitir tipos 'any' implícitos
+    "esModuleInterop": true, // Habilitar interoperabilidad de ES modules
+    "baseUrl": "./", // Definir el directorio base relativo
+    "paths": {
+      "@app/*": ["src/app/*"]
+    }
+  },
+  "include": ["*.ts", "src/**/*.ts"], // Incluir todos los archivos TypeScript en la carpeta raíz y sus subdirectorios  "exclude": ["node_modules"] // Excluir la carpeta 'node_modules' del proceso de compilación
+  "exclude": ["node_modules"] // Excluir la carpeta 'node_modules' del proceso de compilación
+}
