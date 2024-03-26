@@ -6,6 +6,7 @@
 3. [Explicación de archivos](#3-explicación-de-archivos)
     - [main.js](#main-js)
     - [bucles](#bucles)
+    - [arrayMethos](#arrayMethos)
 
 
 ---
@@ -51,8 +52,10 @@ Se puede encontrar en la carpeta **ejecutables** con el resto de archivos ejcuta
 Debes descomentar cada uno de los retos que se quiere ejecutar.
 
 ### bucles
-Archivo que contiene el desarrollo para el lavoratorio Laboratorio Módulo 8.1 - Bucles
+Archivo que contiene el desarrollo para el Laboratorio Módulo 8.1 - Bucles
 
+### arrayMethos
+Archivo que contiene el desarrollo para el Laboratorio Módulo 8.2 - Array Methods.
 
 
 
