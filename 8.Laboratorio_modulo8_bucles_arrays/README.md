@@ -11,15 +11,15 @@
 ---
 # 0. Pasos para trabajar con el proyecto
 Para comenzar a trabajar con el proyecto deberás seguir loos siguientes pasos:
-    - Descarga los paquetes que necesitas usar para este proyecto con el comando:
+    > Descarga los paquetes que necesitas usar para este proyecto con el comando:
     ```terminal
         mpm instal
     ```
-    - Compila lor archivos para crear los archivos ejecutables
+    > Compila lor archivos para crear los archivos ejecutables
     ```terminal
         tsc
     ```
-    - Una vez compilado ejecuta el archivo principal *main.js*
+    > Una vez compilado ejecuta el archivo principal *main.js*
     ```terminal
         node main.js
     ```
@@ -36,6 +36,7 @@ Si se desea compilar de nuevo cualquiera de los archivos *.ts* solo se necesitar
 ```
 Al usar este comando se compilarán todos los archivos con extensión *.ts*
 Los archivos ejecutables se guardarán en la carpeta de ejecutables.
+
 ---
 
 # 3. Explicación de archivos
