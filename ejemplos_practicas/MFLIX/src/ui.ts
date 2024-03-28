@@ -1,5 +1,6 @@
 import { flechas } from "./contantes";
-import { Pelicula, nombreClases, TipoFlecha } from "./modelos";
+import { Pelicula, nombreClases, TipoFlecha, ListaPeliculasConfiguración } from "./modelos";
+import { filtrarPeliculas } from "./motor";
 
 
 // ********* FUNCIONES CREACIÖN DE ELEMENTOS **********
@@ -81,8 +82,8 @@ const pintarPeliculas = (
 // ********* FUNCIONES PARA PINTAR ELEMENTOS**********
 // FUNCIÓN PRINCIPAL -> pintar listado de peliculas -> funcion principal quE IMPRIME en la vista el istado de peliculas de forma dinámica
 export const pintarListadoPeliculas = (
-    tituloSeccion: string,
-    listaPeliculas: Pelicula[]
+    listaPeliculas: Pelicula[],
+    configuración: ListaPeliculasConfiguración
 ): void => {
 
     // 1.Obtencion del div principal donde se pintaran la peliculas -> id:principal
@@ -96,7 +97,7 @@ export const pintarListadoPeliculas = (
         appDiv.appendChild(crearDivPeliculas);
 
         // creamos un titulo para cada pelicula
-        const titulo = crearTitulo(tituloSeccion); //se crea usando la fincion crearTitylo y recibe le parametro de la funcion 
+        const titulo = crearTitulo(configuración.titulo); //se crea usando la fincion crearTitylo y recibe le parametro de la funcion 
         // añadir el titulo al div de pelicula
         crearDivPeliculas.appendChild(titulo);
 
@@ -109,8 +110,11 @@ export const pintarListadoPeliculas = (
         // -> pintar flechas -> usamos la función creada anteriormente.
         pintarFlechas(divContendorPeliculas);
 
+        // peliculas filtradas 
+        const peliculasFiltradas = filtrarPeliculas(listaPeliculas, configuración.filtro);
+
         // pintar peliculas
-        pintarPeliculas(listaPeliculas, divContendorPeliculas);
+        pintarPeliculas(peliculasFiltradas, divContendorPeliculas);
 
     } else {
         console.error('No se ha encontrado el elemento principal');

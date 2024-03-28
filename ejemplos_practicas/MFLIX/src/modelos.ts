@@ -23,9 +23,14 @@ export type TipoFlecha = 'izquierda' | 'derecha';
 // type para filtrar peliculas por género
 export type TipoGenero = 'Familiar' | 'Aventuras' | 'Animación';
 
-export type TipoCaracteristica = 'genero';
+export type TipoCaracteristica = 'genero' | 'premios' | 'masVistas' | 'calificación';
 
 export interface FiltroPeliculas {
     genero?:TipoGenero,
-    caracteristica: TipoCaracteristica
+    caracteristica?: TipoCaracteristica
+}
+
+export interface ListaPeliculasConfiguración {
+    titulo: string,
+    filtro?: FiltroPeliculas
 }

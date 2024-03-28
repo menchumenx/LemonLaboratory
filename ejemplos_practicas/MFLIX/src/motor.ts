@@ -8,6 +8,26 @@ export const filtrarPeliculasPorGenero = (
     return peliculas.filter((pelicula) => pelicula.genero === genero)
 }
 
+// filtrar peliculas con galardon
+export const filtrarPeliculasSiGalardon = (peliculas: Pelicula[]
+): Pelicula[] => {
+    return peliculas.filter((pelicula) => pelicula.premioGalardon);
+}
+
+// filtrar por peliculas más vistas
+export const filtrarPeliculasMasVistas = (peliculas: Pelicula[]
+): Pelicula[] => {
+    return peliculas.filter(pelicula => pelicula.masVisto);
+}
+
+
+// filtrar por calificación
+export const filtrarPeliculasPorCalificacion = (peliculas: Pelicula[]
+): Pelicula[] => {
+    return peliculas.sort((a, b) => b.calificacionImdb - a.calificacionImdb);
+}
+
+
 // Filtrar peliculas -> filtra las peliculas si hay género y si no devuelve el istado general
 export const filtrarPeliculas = (
     peliculas: Pelicula[],
@@ -19,8 +39,16 @@ export const filtrarPeliculas = (
     switch (filtro.caracteristica) {
         case 'genero':
             return filtrarPeliculasPorGenero(peliculas, filtro.genero);
+        case 'premios':
+            return filtrarPeliculasSiGalardon(peliculas);
+        case 'calificación':
+            return filtrarPeliculasPorCalificacion(peliculas);
+        case 'masVistas':
+            return filtrarPeliculasMasVistas(peliculas)
+
         default:
             return peliculas
     }
 
 }
+
