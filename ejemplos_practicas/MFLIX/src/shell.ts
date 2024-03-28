@@ -31,5 +31,4 @@ document.addEventListener('DOMContentLoaded', ()=>{
         filtro: {caracteristica: 'calificación'}
     });
 
-
 })
