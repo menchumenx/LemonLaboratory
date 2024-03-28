@@ -8,7 +8,7 @@ export interface Pelicula {
     premioGalardon : boolean
     fechaEstreno : Date,
     imagen : string
-}
+};
 
 // para clases css
 export const nombreClases = {
@@ -16,4 +16,16 @@ export const nombreClases = {
     listaPeliculas : 'lista-peliculas',
     peliculasContenedor : 'peliculas-contenedor',
     pelicula : 'pelicula'
+};
+
+// type para tipo de flecha
+export type TipoFlecha = 'izquierda' | 'derecha';
+// type para filtrar peliculas por género
+export type TipoGenero = 'Familiar' | 'Aventuras' | 'Animación';
+
+export type TipoCaracteristica = 'genero';
+
+export interface FiltroPeliculas {
+    genero?:TipoGenero,
+    caracteristica: TipoCaracteristica
 }

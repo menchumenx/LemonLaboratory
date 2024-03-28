@@ -1,5 +1,39 @@
-import { Pelicula, nombreClases } from "./modelos";
+import { flechas } from "./contantes";
+import { Pelicula, nombreClases, TipoFlecha } from "./modelos";
 
+
+// ********* FUNCIONES CREACIÖN DE ELEMENTOS **********
+// Añadir flecha a contenedor
+const anadirFlecha = (contenedor: HTMLDivElement, tipo: TipoFlecha) => {
+    const divFlecha = document.createElement('div');
+    divFlecha.className = `flecha-${tipo}`; //le añadimos una clase
+
+    const imgFlecha = document.createElement('img');
+    imgFlecha.src = tipo === 'izquierda' ? flechas.left : flechas.right //dependiendo del tipo asigna una imagen sobre src
+    divFlecha.appendChild(imgFlecha) // le da el valor 
+
+    // Cuando se hace clic en este elemento, se ejecuta una función de retrollamada o callback que contiene la lógica para desplazar el contenido horizontalmente dentro de un contenedor.
+    divFlecha.addEventListener('click', () => {
+        if (tipo === 'izquierda') {
+            contenedor.scrollBy({ // metodo de contenedor para desplazar el contenido
+                left: -contenedor.clientWidth, // se utiliza - para indicar el desplazamiento a la izquierda
+                behavior: "smooth"
+            })
+        } else {
+            contenedor.scrollBy({
+                left: contenedor.clientWidth,
+                behavior: "smooth"
+            })
+        }
+    })
+    contenedor.appendChild(divFlecha); // añade la imagen con el evento al contenedor recibido por parametro
+}
+
+// funcón pintar flechas 
+const pintarFlechas = (peliculasContenedor: HTMLDivElement): void => {
+    anadirFlecha(peliculasContenedor, 'izquierda');
+    anadirFlecha(peliculasContenedor, 'derecha');
+}
 
 // Crea un titulo de seccion
 const crearTitulo = (tituloSeccion: string): HTMLHeadingElement => {
@@ -9,15 +43,43 @@ const crearTitulo = (tituloSeccion: string): HTMLHeadingElement => {
 }
 
 // Crea contenedor
-const crearContenedor = (nombreClase: string): HTMLDivElement => {
-    const listaPeliculas = document.createElement('div'); //creamos elemento
-    listaPeliculas.classList.add(nombreClase); // damos una clase al elemento div
-    listaPeliculas.id = nombreClase // le asignamos un dientificador con el mismo nomnre 
-    return listaPeliculas // retornamos el elemnto completo
+const crearContenedor = (nombreClase: string, contenedor: HTMLDivElement
+): HTMLDivElement => {
+    const div = document.createElement('div'); //creamos elemento
+    div.classList.add(nombreClase); // damos una clase al elemento div
+    div.id = nombreClase // le asignamos un dientificador con el mismo nomnre 
+    contenedor.appendChild(div) // esto es interesante añadirloo si se va reutilizar mucho esta funcion
+    return div // retornamos el elemnto completo
+}
+
+// función para pintar una pelicula
+const pintarPelicula = (
+    pelicula: Pelicula,
+    peliculaContenedor: HTMLDivElement
+): void => {
+    const divPelicula = crearContenedor(
+        nombreClases.pelicula,
+        peliculaContenedor
+    );
+    divPelicula.innerHTML = `
+    <img src="${pelicula.imagen}" alt="${pelicula.titulo}"></img>
+    <h3>${pelicula.titulo}</h3>
+    `;
+}
+
+// función que pinta un listado de peliculas
+const pintarPeliculas = (
+    peliculas : Pelicula[],
+    peliculaContenedor : HTMLDivElement
+): void => {
+    peliculas.forEach(pelicula => {
+        pintarPelicula(pelicula, peliculaContenedor)
+    })
 }
 
 
-// ? pintar listado de peliculas -> funcion principal qu eimprimira en la vista el istado de peliculas de forma dinámica
+// ********* FUNCIONES PARA PINTAR ELEMENTOS**********
+// FUNCIÓN PRINCIPAL -> pintar listado de peliculas -> funcion principal quE IMPRIME en la vista el istado de peliculas de forma dinámica
 export const pintarListadoPeliculas = (
     tituloSeccion: string,
     listaPeliculas: Pelicula[]
@@ -29,7 +91,7 @@ export const pintarListadoPeliculas = (
     // 2. comprobar si este elemento existe
     if (appDiv && appDiv instanceof HTMLDivElement) {
         // creamos el div para las peliculas
-        const crearDivPeliculas = crearContenedor(nombreClases.peliculas); // usamos la fincion para crera contendores(claseCss)
+        const crearDivPeliculas = crearContenedor(nombreClases.peliculas, appDiv); // usamos la fincion para crera contendores(claseCss)
         // añadimos este dic al div principal
         appDiv.appendChild(crearDivPeliculas);
 
@@ -39,25 +101,16 @@ export const pintarListadoPeliculas = (
         crearDivPeliculas.appendChild(titulo);
 
         // cremos un div lista de peliculas 
-        const divListaPeliculas = crearContenedor(nombreClases.listaPeliculas);
-        crearDivPeliculas.appendChild(divListaPeliculas)
+        const divListaPeliculas = crearContenedor(nombreClases.listaPeliculas, crearDivPeliculas);
 
         // creamos un div contenedor de peliculas
-        const divContendorPeliculas = crearContenedor(nombreClases.peliculasContenedor);
-        divListaPeliculas.appendChild(divContendorPeliculas);
+        const divContendorPeliculas = crearContenedor(nombreClases.peliculasContenedor, divListaPeliculas);
+
+        // -> pintar flechas -> usamos la función creada anteriormente.
+        pintarFlechas(divContendorPeliculas);
 
         // pintar peliculas
-        listaPeliculas.forEach(pelicula => {
-            const divPelicula = crearContenedor(nombreClases.pelicula);
-            // añadimos datos al divPleicula
-            divPelicula.innerHTML = `
-                <img src="${pelicula.imagen}" alt="${pelicula.titulo}"></img>
-                <h3>${pelicula.titulo}</h3>
-            `;
-
-            // añadir divPelicula l divContenedorPelicula
-            divContendorPeliculas.appendChild(divPelicula);
-        })
+        pintarPeliculas(listaPeliculas, divContendorPeliculas);
 
     } else {
         console.error('No se ha encontrado el elemento principal');
