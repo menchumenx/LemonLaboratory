@@ -1,4 +1,5 @@
-import { cssClasName } from "./models";
+import { sameImage } from "../pruebaConcepto_1/barajar";
+import { InfoCard, cssClasName } from "./models";
 
 
 const createDivContainer = (nombreClase: string, contenedor: HTMLDivElement
@@ -10,11 +11,11 @@ const createDivContainer = (nombreClase: string, contenedor: HTMLDivElement
     return div // retornamos el elemnto completo
 }
 
-export const showAnimal = (
+const showAnimal = (
     image: string,
     cardContainer: HTMLDivElement
 ): void => {
-  
+
     const imageToSshow = document.createElement('img');
     if (imageToSshow) {
         imageToSshow.classList.add(cssClasName.imgCard);
@@ -29,23 +30,55 @@ export const showAnimal = (
         // Opcional: remover la clase después de que la animación termine para permitir reinicio
         setTimeout(() => {
             cardContainer.classList.remove(cssClasName.flipEffect);
-        }, 600); // Ajusta este tiempo al de la duración de tu animación
+        }, 400);
     }
 }
 
 export const printAnimalList = ((
-    animalList: string[],
+    animalList: InfoCard[],
     animalListContainer: HTMLDivElement
 ): void => {
 
-    animalList.forEach((animalCard: string) => {
+    const cupleOfAnimal: InfoCard[] = [];
+
+    animalList.forEach((animalCard: InfoCard) => {
         const containerImage = createDivContainer(cssClasName.cardContainer, animalListContainer)
         const clickHandler = () => {
-            showAnimal(animalCard, containerImage);
+
+            console.log(animalCard);
+
+            if (cupleOfAnimal.length < 2) {
+                cupleOfAnimal.push(animalCard)
+                showAnimal(animalCard.image, containerImage);
+            } else {
+                console.log('ya hay 2 elementos');
+            }
+
+            console.log(cupleOfAnimal);
+            // Verificar si hay suficientes elementos en cupleOfAnimal antes de acceder a sus propiedades
+            if (cupleOfAnimal.length === 2) {
+                const result = sameImage(cupleOfAnimal[0]?.idImage, cupleOfAnimal[1]?.idImage);
+                console.log(result);
+                 if (!result){
+                    // girar las cartas 
+                 } else {
+                    // victoria
+                 }
+            }
+
+
             containerImage.removeEventListener('click', clickHandler); // Elimina el listener después del primer click, para evitar que se replique la imagen
+
         };
         // ! volver activar el evento al clicar en la seguna imagen si no coincide
         containerImage.addEventListener('click', clickHandler);
+
     })
 
 })
+
+
+// const getCardInfo = ():InfoCard =>{
+
+// }
+

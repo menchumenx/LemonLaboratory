@@ -11,7 +11,6 @@ import { printAnimalList} from "../pruebsConcepto_2y3/ui";
 // if(cardContainer){
 //     cardContainer.addEventListener('click', () => showAnimal('https://images.emojiterra.com/google/noto-emoji/unicode-15.1/color/share/1f986.jpg', cardContainer))
 // }
-// ! ajustar esta función paea entrer en la imagen del obejeto
 const shuffleAnimalList = shuffleCardsArray(animalList)
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,3 +19,5 @@ document.addEventListener('DOMContentLoaded', () => {
         printAnimalList(shuffleAnimalList, cardsMainContainer);
     }
 });
+
+

@@ -1,18 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Madimi+One&family=Rubik+Scribble&display=swap');
 
 *{
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
-
+:root{
+  --font_family:"Madimi One", sans-serif;
+}
 body{
   background-color: rgb(29, 29, 29);
   color: white;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  row-gap: 40px;
   height: 100vh;
+  padding-top: 40px;
+}
+h1{
+  font-size: 40px;
+  font-family: var(--font_family);
+  color: rgb(255, 160, 6);
 }
 .main-cards-container{
   width: 80%;
@@ -47,9 +56,26 @@ body{
   animation: flip 0.6s forwards; /* Aplica la animación */
 }
 
-
 .image-card {
   width: 100%;
   /* Asegúrate de que el giro se vea desde el frente y el dorso */
   backface-visibility: hidden;
+}
+
+
+.counter-container{
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 80%;
+  height: 40px;
+  display: flex;
+  justify-content: space-evenly;
+  align-self: center;
+}
+.counter{
+  border: 1px solid rebeccapurple;
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
