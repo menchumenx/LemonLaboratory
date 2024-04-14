@@ -23,9 +23,19 @@ h1{
   font-family: var(--font_family);
   color: rgb(255, 160, 6);
 }
+.start-game{
+  border: 1px solid #ca7fff;
+  width: 80%;
+  border-radius: 6px;
+  padding: 20px;
+  text-align: center;
+}
+.start-game:hover{
+  background: #ca7fff;
+  color: black;
+}
 .main-cards-container{
   width: 80%;
-  border: 2px solid blue;
   padding: 10px;
   display: flex;
   flex-flow: row wrap;
@@ -33,11 +43,11 @@ h1{
   gap: 10px;
 }
 .card-container {
-  border: 2px solid white;
+  border: 2px solid #deb8f9;
   width: 150px;
   height: 150px;
   border-radius: 10px;
-  background-color: aquamarine;
+  background-color: #ca7fff;
   display: flex;
   justify-content: center;
   align-items: center;
