@@ -1,8 +1,6 @@
 
-// !!!!!! PENDIENTE
-// ! resolver la vista para cuando se empeiza una nueva partida !!c 
-
-// contantes
+// *****************************
+// Definición de constantes
 const CARTA_BOCA_ABAJO = 'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg';
 const UNO_COPAS = 'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg';
 const DOS_COPAS = 'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg';
@@ -20,58 +18,67 @@ const CONSERVADOR = '😴';
 const MAS_RIESGO = '🙄';
 const ESTUVO_CERCA = '😬'
 
-let userScore = 0;
-
-const cartaDada = document.getElementById('mostrarCarta');
-cartaDada ? cartaDada.style.display = 'none' : null;
 
 
-function muestraPuntuacion(score) {
-    document.getElementById('score').innerHTML = score;
-}
-muestraPuntuacion(userScore)
 
 
+// *****************************
+// FUNCION PRINCIPAL
 
 function dameCarta() {
-    let random = Math.floor(Math.random() * 10) + 1;
-    if (random >= 8) random += 2;
-    console.log(random);
+    const randomNumber = getRandomNumber(); // genera el num aletorio
+    const card = getCardnumber(randomNumber); // crea la carta
+    console.log(card);
+    const urlCard = getUrlCard(card) // llama a la funcion que muestra la carta 
+    console.log(urlCard);
+    printCardUrl(urlCard); // actuliza la vista
 
-    mostrarCarta(random) // llamada  la funcion que muestra la carta 
 
-    getRealValue(random); // evalua si suma el 0.5 o el valor de la carta segun la carta
+    const points = getCardPoints(card) // revisa que puntos debe sumar segun la carta
+    const sumScore = sumPoints(points); // suma los puntos
+    setUserScore(sumScore); // resetea los punto de usuario
 
     muestraPuntuacion(userScore) // llamada para mostrar la puntuación total
-
-    // gameOver(userScore) // indica si has ganado o perdido
-
-    return random;
-}
-
-// creación de evento click para mostrsr cartas y generar numero aleatorio
-let giveCard = document.getElementById('carta');
-giveCard ? giveCard.addEventListener('click', dameCarta) : null
-
-let stop = document.getElementById('stop');
-stop ? stop.addEventListener('click', () => gameOver(userScore)) : null;
-
-let reset = document.getElementById('reset');
-reset ? reset.addEventListener('click', newGame) : null;
-
-
-
-function getRealValue(random) {
-    // suma la carta a la puntuación y evalua que sumar dependiendo de que carta sea
-    let resultado = random === 10 || random === 11 || random === 12 ? random = 0.5 : random
-    console.log('resultado :', resultado);
-    userScore += resultado;
+    checkGame(userScore) // indica si has ganado o perdido
 }
 
 
+
+// *****************************
+// Deficición de Funciones
+
+// Función para mostrar la puntuación del jugador
+const muestraPuntuacion = (score) => {
+    document.getElementById('score').innerHTML = score;
+}
+const getRandomNumber = () => {
+    return Math.floor(Math.random() * 10) + 1;
+}
+
+const getCardnumber = (randomNumber) => {
+    return randomNumber > 7 ? randomNumber + 2 : randomNumber;
+}
+
+const getCardPoints = (card) => {
+    return card > 7 ? 0.5 : card;
+}
+
+const sumPoints = (points) => {
+    return userScore + points;
+}
+
+const setUserScore = (newScore) => {
+    userScore = newScore
+}
+
+const checkGame = (userScore) => {
+    if (userScore > 7.5) {
+        gameOver(userScore);
+    }
+}
 
 // función para determinar el mensaje apropiado a mostrar. Si ninguna de las condiciones específicas de puntuación se cumple, se asume que el jugador ha perdido y se muestra un mensaje de derrota por defecto.
-function gameOver(finalScore) {
+const gameOver = (finalScore) => {
     let mensaje;
     let icono;
 
@@ -123,18 +130,20 @@ function gameOver(finalScore) {
 
 
 // Función para resetear la partida -> limpia el contador de score y la imagen de carta
-function newGame() {
+const newGame = () => {
     userScore = 0;
     muestraPuntuacion(userScore); // muestra la info de score en la vista
-    mostrarCarta(userScore); // actualiza la imagen a mostrar 
+    const url = getUrlCard(userScore)
+    printCardUrl(url); // actualiza la imagen a mostrar 
+    resetGameView(); // Restablece la vista del juego
 }
 
 
 
 //  funcion para mostrar la carta segun el valor random. Para el valor por defecto se asigna la carta boca a bajo.
-function mostrarCarta(random) {
+function getUrlCard(card) {
     let cartaAMostrar;
-    switch (random) {
+    switch (card) {
         case 1:
             cartaAMostrar = UNO_COPAS
             break;
@@ -170,7 +179,59 @@ function mostrarCarta(random) {
             cartaAMostrar = null;
     }
 
-    // actualizamos el elemento de la vista 
-    cartaDada.src = cartaDada ? cartaAMostrar : null;
-    cartaDada.style.display = 'block';
+    return cartaAMostrar;
+
 }
+
+// actualiza la vista
+const printCardUrl = (urlCard) => {
+    if (cartaDada) {
+        cartaDada.src = urlCard !== null ? urlCard : '';
+        cartaDada.style.display = urlCard !== null ? 'block' : 'none';
+    }
+}
+
+
+// Función para restablecer la vista del juego ->  Restablecer elementos y estilos a su estado inicial
+const resetGameView = () => {
+    if (cardsBox) {
+        cardsBox.style.display = 'block';
+        cartaDada.style.display = 'block';
+
+        // Restablece el valor original de display después de un breve retraso
+        setTimeout(() => {
+            cardsBox.style.display = currentDisplay;
+        }, 10);
+    }
+
+    giveCard ? giveCard.disabled = false : null
+
+    let messageBox = document.querySelector('.message');
+    if (messageBox) {
+        messageBox.style.display = 'none';
+    }
+}
+
+// *****************************
+// Inicialización de variables globales
+let userScore = 0;
+const cardsBox = document.querySelector('.cards'); // Contenedor de cartas
+const currentDisplay = getComputedStyle(cardsBox).display; // Estado actual de visualización
+
+// Elemento de la carta mostrada inicialmente
+const cartaDada = document.getElementById('mostrarCarta');
+// Ocultar la carta inicialmente
+cartaDada ? cartaDada.style.display = 'none' : null;
+
+// Agregar eventos de clic a los botones
+let giveCard = document.getElementById('carta');
+giveCard ? giveCard.addEventListener('click', dameCarta) : null
+
+let stop = document.getElementById('stop');
+stop ? stop.addEventListener('click', () => gameOver(userScore)) : null;
+
+let reset = document.getElementById('reset');
+reset ? reset.addEventListener('click', newGame) : null;
+
+
+muestraPuntuacion(userScore)
