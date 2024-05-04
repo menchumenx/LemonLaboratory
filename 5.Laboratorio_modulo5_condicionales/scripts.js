@@ -19,29 +19,20 @@ const MAS_RIESGO = '🙄';
 const ESTUVO_CERCA = '😬'
 
 
-
-
-
 // *****************************
 // FUNCION PRINCIPAL
 
 function dameCarta() {
     const randomNumber = getRandomNumber(); // genera el num aletorio
     const card = getCardnumber(randomNumber); // crea la carta
-    console.log(card);
     const urlCard = getUrlCard(card) // llama a la funcion que muestra la carta 
-    console.log(urlCard);
     printCardUrl(urlCard); // actuliza la vista
-
-
     const points = getCardPoints(card) // revisa que puntos debe sumar segun la carta
     const sumScore = sumPoints(points); // suma los puntos
     setUserScore(sumScore); // resetea los punto de usuario
-
     muestraPuntuacion(userScore) // llamada para mostrar la puntuación total
     checkGame(userScore) // indica si has ganado o perdido
 }
-
 
 
 // *****************************
@@ -76,55 +67,6 @@ const checkGame = (userScore) => {
         gameOver(userScore);
     }
 }
-
-// // función para determinar el mensaje apropiado a mostrar. Si ninguna de las condiciones específicas de puntuación se cumple, se asume que el jugador ha perdido y se muestra un mensaje de derrota por defecto.
-// const gameOver = (finalScore) => {
-//     let mensaje;
-//     let icono;
-
-//     giveCard ? giveCard.disabled = true : null
-
-//     if (finalScore < 4) {
-//         mensaje = "Has sido muy conservador ";
-//         icono = CONSERVADOR
-//     } else if (finalScore >= 4 && finalScore < 5) {
-//         mensaje = "Un poco más de riesgo no vendría mal ";
-//         icono = MAS_RIESGO
-//     } else if (finalScore >= 5 && finalScore < 6) {
-//         mensaje = "Te ha entrado el canguelo eh? ";
-//         icono = MAS_RIESGO
-//     } else if (finalScore >= 6 && finalScore < 7.5) {
-//         mensaje = "Casi casi... ";
-//         icono = ESTUVO_CERCA
-//     } else if (finalScore === 7.5) {
-//         mensaje = "¡Lo has clavado! ¡Enhorabuena!";
-//         icono = VICTORIA
-//     } else {
-//         mensaje = `HAS PERDIDO!! Tu puntuación es ${finalScore} `;
-//         icono = DERROTA
-//     }
-
-//     let cardsBox = document.querySelector('.cards');
-//     if (cardsBox) {
-//         cardsBox.style.display = 'none';
-//     }
-
-//     let messageBox = document.querySelector('.message');
-//     if (messageBox) {
-//         messageBox.style.display = 'block';
-//     }
-
-//     let messageText = document.getElementById('message-text');
-//     if (messageText) {
-//         messageText.innerHTML = mensaje;
-//     }
-
-//     let messageIcon = document.getElementById('message-icon');
-//     if (messageIcon) {
-//         messageIcon.innerHTML = icono;
-//     }
-//     console.log(mensaje);
-// }
 
 const disableGiveCard = () => {
     if (giveCard) {
@@ -179,8 +121,6 @@ const gameOver = (finalScore) => {
     updateUIWithOutcome(mensaje, icono);
 }
 
-
-
 // Función para resetear la partida -> limpia el contador de score y la imagen de carta
 const newGame = () => {
     userScore = 0;
@@ -189,8 +129,6 @@ const newGame = () => {
     printCardUrl(url); // actualiza la imagen a mostrar 
     resetGameView(); // Restablece la vista del juego
 }
-
-
 
 //  funcion para mostrar la carta segun el valor random. Para el valor por defecto se asigna la carta boca a bajo.
 function getUrlCard(card) {
@@ -243,7 +181,6 @@ const printCardUrl = (urlCard) => {
     }
 }
 
-
 // Función para restablecer la vista del juego ->  Restablecer elementos y estilos a su estado inicial
 const resetGameView = () => {
     if (cardsBox) {
@@ -263,7 +200,6 @@ const resetGameView = () => {
         messageBox.style.display = 'none';
     }
 }
-
 
 
 // *****************************
