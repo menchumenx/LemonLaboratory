@@ -23,51 +23,58 @@ Este script JavaScript facilita la gestión de turnos a través de una interfaz 
 
 
 ## Detalles Técnicos
+## Detalles Técnicos
 
 ### Variables Principales
-- `shift`: Captura el valor actual del turno desde el contenido del elemento HTML identificado por `shift`.
-- `numberShift`: Almacena el número de turno actual como un entero, facilitando su manipulación.
 
+- `shiftElement`: Representa el elemento HTML que muestra el número de turno actual en la interfaz.
+- `numberShift`: Almacena el número de turno actual como un entero, facilitando su manipulación.
 
 ### Funciones
 
-#### goAhead()
-Incrementa el número de turno en uno y actualiza la visualización en la interfaz.
+#### updateShiftElement(shiftElement, numberShift)
+Actualiza el contenido de `shiftElement` con el valor de `numberShift`, formateando el número para que siempre tenga dos dígitos (por ejemplo, "00", "01").
 
 ```JAVASCRIPT
-function goAhead() {
-    numberShift += 1;
-    document.getElementById('shift').innerHTML = numberShift.toString().padStart(2, '0');
+function updateShiftElement(shiftElement, numberShift) {
+    if (shiftElement && numberShift !== undefined && numberShift !== null) {
+        shiftElement.innerHTML = numberShift.toString().padStart(2, '0');
+    }
 }
 ```
+
+
 
 #### goBack()
 Decrementa el número de turno en uno, con la condición de que este sea mayor a uno, manteniendo la actualización en la interfaz.
 ```JAVASCRIPT
-function goBack() {
+    function goBack() {
     if (numberShift > 1) {
         numberShift -= 1;
+        updateShiftElement(shiftElement, numberShift);
     }
-    document.getElementById('shift').innerHTML = numberShift.toString().padStart(2, '0');
 }
-
 ```
 
 #### modifyShift()
 Permite la modificación manual del número de turno a través de un campo de entrada y actualiza la interfaz acordemente.
 ```JAVASCRIPT
 function modifyShift() {
-    let operatorShift = document.getElementById('operatorShift').value
-    let numberOpShift = parseInt(operatorShift);
-    numberShift = numberOpShift;
+    const operatorShift = document.getElementById('operatorShift').value;
+    const numberOpShift = parseInt(operatorShift);
 
-    if (operatorShift != '') {
-        document.getElementById('shift').innerHTML = numberShift.toString().padStart(2, '0');
+    // Verificar si el input es un número válido y no negativo
+    if (!isNaN(numberOpShift) && numberOpShift >= 0) {
+        numberShift = numberOpShift;
+        updateShiftElement(shiftElement, numberShift);
     } else {
-        document.getElementById('operatorShift').value = '';
+        // Si el input no es válido, restablecer el turno a 0
         numberShift = 0;
-        document.getElementById('shift').innerHTML = numberShift.toString().padStart(2, '0');
+        updateShiftElement(shiftElement, numberShift);
     }
+
+    // Limpiar el campo de entrada después de su uso
+    document.getElementById('operatorShift').value = '';
 }
 ```
 
@@ -93,9 +100,28 @@ function minShiftValue(value) {
 Implementa escuchas de eventos para interactuar con botones específicos de la interfaz, vinculándolos a las funciones correspondientes.
 
 ```JAVASCRIPT
-const reset = document.getElementById('reset');
-reset.addEventListener('click', resetShift)
+// Botones de la interfaz
+const goBackButton = document.createElement('button');
+goBackButton.innerText = '<';
+goBackButton.addEventListener('click', goBack);
 
-const update = document.getElementById('update');
-update.addEventListener('click', modifyShift)
+const resetButton = document.createElement('button');
+resetButton.innerText = 'Reset';
+resetButton.classList.add('reset-button');
+resetButton.addEventListener('click', resetShift);
+
+const goAheadButton = document.createElement('button');
+goAheadButton.innerText = '>';
+goAheadButton.addEventListener('click', goAhead);
+
+// Agregar los botones a un contenedor en la interfaz
+const buttonsContainer = document.getElementById('buttons');
+buttonsContainer.appendChild(goBackButton);
+buttonsContainer.appendChild(resetButton);
+buttonsContainer.appendChild(goAheadButton);
+
+// Asignar eventos a botones existentes
+const updateButton = document.getElementById('update');
+updateButton.addEventListener('click', modifyShift);
+
 ``

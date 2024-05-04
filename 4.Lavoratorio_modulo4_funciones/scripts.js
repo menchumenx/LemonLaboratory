@@ -1,19 +1,59 @@
 
+// **** ELEMENTOS Y EVENTOS ******************************************
+const shiftElement = document.getElementById('shift');
+
+const updateButton = document.getElementById('update');
+if(updateButton){
+    updateButton.addEventListener('click', modifyShift)
+}
+
+const goBackButton = document.createElement('button');
+if (goBackButton) {
+    goBackButton.innerText = '<';
+    goBackButton.addEventListener('click', goBack);
+}
+
+const resetButton = document.createElement('button');
+if (resetButton) {
+    resetButton.innerText = 'Reset';
+    resetButton.classList.add('reset-button')
+    resetButton.addEventListener('click', resetShift)
+}
+
+const goAheadButton = document.createElement('button');
+if (goAheadButton) {
+    goAheadButton.innerText = '>';
+    goAheadButton.addEventListener('click', goAhead);
+}
+
+const buttonsContainer = document.getElementById('buttons');
+if (buttonsContainer) {
+    buttonsContainer.appendChild(goBackButton);
+    buttonsContainer.appendChild(resetButton);
+    buttonsContainer.appendChild(goAheadButton);
+}
 
 
-// recogida de valor para h1
-let shift = document.getElementById('shift').innerText;
-shift.padStart(2, '0')
-let numberShift = parseInt(shift);
+// *** Estado de la App ***********************************
+let numberShift = 0;
+// Actualiza shiftElement con el valor inicial de numberShift
+updateShiftElement(shiftElement, numberShift)
 
-// *** FUNCIONES ***********************************
+
+
+// *** FUNCIONES 
+function updateShiftElement(shiftElement, numberShift) {
+    if (shiftElement && numberShift !== undefined && numberShift !== null) {
+        shiftElement.innerHTML = numberShift.toString().padStart(2, '0');
+    }
+}
 
 // ****************** 
 // funcion de avance
 // ****************** 
 function goAhead() {
     numberShift += 1;
-    document.getElementById('shift').innerHTML = numberShift.toString().padStart(2, '0');
+    updateShiftElement(shiftElement, numberShift)
 }
 
 // ****************** 
@@ -22,26 +62,28 @@ function goAhead() {
 function goBack() {
     if (numberShift > 1) { // Solo decrementar si numberShift es mayor que 1
         numberShift -= 1;
+        updateShiftElement(shiftElement, numberShift)
     }
-    document.getElementById('shift').innerHTML = numberShift.toString().padStart(2, '0');
 }
 
 // ****************** 
 // funcion que modifica el turno por el operador
 // ****************** 
 function modifyShift() {
-    let operatorShift = document.getElementById('operatorShift').value
-    let numberOpShift = parseInt(operatorShift);
-    numberShift = numberOpShift;
-
-    if (operatorShift != '') {
-        document.getElementById('shift').innerHTML = numberShift.toString().padStart(2, '0');
-        document.getElementById('operatorShift').value = '';
+    const operatorShift = document.getElementById('operatorShift').value;
+    const numberOpShift = parseInt(operatorShift);
+ 
+    // Verificar si el input es un número válido
+    if (!isNaN(numberOpShift) && numberOpShift >= 0) {
+        numberShift = numberOpShift;
+        updateShiftElement(shiftElement, numberShift);
     } else {
-        document.getElementById('operatorShift').value = '';
+        // Si el input no es válido, restablecer el turno a 0
         numberShift = 0;
-        document.getElementById('shift').innerHTML = numberShift.toString().padStart(2, '0');
+        updateShiftElement(shiftElement, numberShift);
     }
+    // Limpiar el input después de su uso
+    document.getElementById('operatorShift').value = '';
 }
 
 // ****************** 
@@ -49,28 +91,19 @@ function modifyShift() {
 // ****************** 
 function resetShift() {
     numberShift = 0;
-    document.getElementById('shift').innerHTML = numberShift.toString().padStart(2, '0');
+    updateShiftElement(shiftElement, numberShift)
 }
 
 // ****************** 
 // funcion para controlar el valor minimo del turno
 // ****************** 
 function minShiftValue(value) {
-    console.log(value);
     const minValue = 0;
     return value < minValue ? minValue : value;
 }
 
 
 
-
-// **** EVENTOS ******************************************
-// creacion de evento para resetear
-const reset = document.getElementById('reset');
-reset.addEventListener('click', resetShift)
-
-const update = document.getElementById('update');
-update.addEventListener('click', modifyShift)
 
 
 
