@@ -77,33 +77,80 @@ const checkGame = (userScore) => {
     }
 }
 
-// función para determinar el mensaje apropiado a mostrar. Si ninguna de las condiciones específicas de puntuación se cumple, se asume que el jugador ha perdido y se muestra un mensaje de derrota por defecto.
-const gameOver = (finalScore) => {
-    let mensaje;
-    let icono;
+// // función para determinar el mensaje apropiado a mostrar. Si ninguna de las condiciones específicas de puntuación se cumple, se asume que el jugador ha perdido y se muestra un mensaje de derrota por defecto.
+// const gameOver = (finalScore) => {
+//     let mensaje;
+//     let icono;
 
-    giveCard ? giveCard.disabled = true : null
+//     giveCard ? giveCard.disabled = true : null
 
-    if (finalScore < 4) {
-        mensaje = "Has sido muy conservador ";
-        icono = CONSERVADOR
-    } else if (finalScore >= 4 && finalScore < 5) {
-        mensaje = "Un poco más de riesgo no vendría mal ";
-        icono = MAS_RIESGO
-    } else if (finalScore >= 5 && finalScore < 6) {
-        mensaje = "Te ha entrado el canguelo eh? ";
-        icono = MAS_RIESGO
-    } else if (finalScore >= 6 && finalScore < 7.5) {
-        mensaje = "Casi casi... ";
-        icono = ESTUVO_CERCA
-    } else if (finalScore === 7.5) {
-        mensaje = "¡Lo has clavado! ¡Enhorabuena!";
-        icono = VICTORIA
-    } else {
-        mensaje = `HAS PERDIDO!! Tu puntuación es ${finalScore} `;
-        icono = DERROTA
+//     if (finalScore < 4) {
+//         mensaje = "Has sido muy conservador ";
+//         icono = CONSERVADOR
+//     } else if (finalScore >= 4 && finalScore < 5) {
+//         mensaje = "Un poco más de riesgo no vendría mal ";
+//         icono = MAS_RIESGO
+//     } else if (finalScore >= 5 && finalScore < 6) {
+//         mensaje = "Te ha entrado el canguelo eh? ";
+//         icono = MAS_RIESGO
+//     } else if (finalScore >= 6 && finalScore < 7.5) {
+//         mensaje = "Casi casi... ";
+//         icono = ESTUVO_CERCA
+//     } else if (finalScore === 7.5) {
+//         mensaje = "¡Lo has clavado! ¡Enhorabuena!";
+//         icono = VICTORIA
+//     } else {
+//         mensaje = `HAS PERDIDO!! Tu puntuación es ${finalScore} `;
+//         icono = DERROTA
+//     }
+
+//     let cardsBox = document.querySelector('.cards');
+//     if (cardsBox) {
+//         cardsBox.style.display = 'none';
+//     }
+
+//     let messageBox = document.querySelector('.message');
+//     if (messageBox) {
+//         messageBox.style.display = 'block';
+//     }
+
+//     let messageText = document.getElementById('message-text');
+//     if (messageText) {
+//         messageText.innerHTML = mensaje;
+//     }
+
+//     let messageIcon = document.getElementById('message-icon');
+//     if (messageIcon) {
+//         messageIcon.innerHTML = icono;
+//     }
+//     console.log(mensaje);
+// }
+
+const disableGiveCard = () => {
+    if (giveCard) {
+        giveCard.disabled = true;
     }
+}
 
+// determina el mensaje
+const getOutcome = (finalScore) => {
+    if (finalScore < 4) {
+        return ["Has sido muy conservador ", CONSERVADOR];
+    } else if (finalScore >= 4 && finalScore < 5) {
+        return ["Un poco más de riesgo no vendría mal ", MAS_RIESGO];
+    } else if (finalScore >= 5 && finalScore < 6) {
+        return ["Te ha entrado el canguelo eh? ", MAS_RIESGO];
+    } else if (finalScore >= 6 && finalScore < 7.5) {
+        return ["Casi casi... ", ESTUVO_CERCA];
+    } else if (finalScore === 7.5) {
+        return ["¡Lo has clavado! ¡Enhorabuena!", VICTORIA];
+    } else {
+        return [`HAS PERDIDO!! Tu puntuación es ${finalScore} `, DERROTA];
+    }
+}
+
+// actualiza la interfaz
+const updateUIWithOutcome = (mensaje, icono) => {
     let cardsBox = document.querySelector('.cards');
     if (cardsBox) {
         cardsBox.style.display = 'none';
@@ -123,9 +170,14 @@ const gameOver = (finalScore) => {
     if (messageIcon) {
         messageIcon.innerHTML = icono;
     }
-    console.log(mensaje);
 }
 
+const gameOver = (finalScore) => {
+    disableGiveCard();
+
+    const [mensaje, icono] = getOutcome(finalScore);
+    updateUIWithOutcome(mensaje, icono);
+}
 
 
 
@@ -211,6 +263,8 @@ const resetGameView = () => {
         messageBox.style.display = 'none';
     }
 }
+
+
 
 // *****************************
 // Inicialización de variables globales
