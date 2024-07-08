@@ -46,8 +46,6 @@ export const initializeOrRestartGame = () => {
 };
 
 
-
-
 // Agregamos un evento de clic al botón de inicio del juego
 startGameButton.addEventListener('click', initializeOrRestartGame);
 
