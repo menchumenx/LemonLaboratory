@@ -1,153 +1,321 @@
 import { Board, createInitialBoard, cssClasName } from "./model";
-import { areCouple, flipCard, noCuple, posibleToFlippedCard, shuffleCards } from "./motor";
+import { areCouple, flipCard, gameComplete, noCuple, posibleToFlippedCard, shuffleCards} from "./motor";
 import { cardsCollection } from "./data";
 
 
-// -> startGameButton: Inicializa la partida, creando un nuevo tablero y barajando las cartas.
-export const startGameButton = (
-    divContainer: HTMLDivElement
-): HTMLDivElement => {
+// ? ******************************************
+// ? VARIABLES Y CONSTASTES GENERALES
+let cupleTries: number = 0;
+let maximunTries: number = 8;
+let gamePoints: number = 0;
+let victories: number = 0;
+let win: boolean = false;
 
-    if (divContainer) {
-        divContainer.addEventListener('click', () => {
-            const cardsMainContainer = document.getElementById('main-cards-container') as HTMLDivElement;
+let board: Board | null = null;
 
-            if (cardsMainContainer) {
-                const initialBoard = createInitialBoard(cardsCollection); //creamos tablero
-                shuffleCards(cardsCollection); //barajamos
-                console.log(initialBoard);
+const cardsMainContainer = document.getElementById('main-cards-container') as HTMLDivElement;
+const mainContainer = document.getElementById('main-container') as HTMLDivElement;
+const startGameButton = document.getElementById('start-game-button') as HTMLButtonElement;
 
-                // creamos el grid
-                createGridCard(initialBoard, cardsMainContainer.id);
-            }
-        })
+let modal = document.createElement('div');
+let backdrop = document.createElement('div');
+
+let gameInitialized: boolean = false; // Variable para controlar si el juego está inicializado
+
+
+// ? ******************************************
+// ? FUNCIONES DE MANEJO
+// Función para iniciar o reiniciar el juego
+export const initializeOrRestartGame = () => {
+    resetState();
+    if (gameInitialized) {
+        if (cardsMainContainer) {
+            cardsMainContainer.innerHTML = '';
+        }
+        closeModal();
     }
-    return divContainer;
-}
 
-// -> createGridCard: crear grid de Card y pinta todas las cartas boca abajo, cada una con su evento e index
-export const createGridCard = (
-    board: Board,
-    idContainer: string
-): void => {
+    const mixedCardsCollection = shuffleCards(cardsCollection);
+    board = createInitialBoard(mixedCardsCollection);
+    board.gameStatus = 'CeroCartasLevantadas';
+    createGridCard(board, 'main-cards-container');
 
+    gameInitialized = true; // Actualizamos el estado del juego
+    updateTriesCounter(); // Reiniciar el contador de intentos al iniciar un nuevo juego
+    updateGamesCounter(); // Reiniciar el contador de juegos al iniciar un nuevo juego
+};
+
+
+// Función para manejar la pérdida del juego
+export const youLose = () => {
+    const tries = toMuchTries(cupleTries);
+    const message = 'Has Perdido 🥹 ¡Comienza una partida nueva!';
+    if (tries) {
+        createModal(message);
+    }
+};
+
+
+// Agregamos un evento de clic al botón de inicio del juego
+startGameButton.addEventListener('click', initializeOrRestartGame);
+
+
+// Función para crear el grid de cartas
+export const createGridCard = (board: Board, idContainer: string): void => {
     const divContainer = document.getElementById(idContainer);
 
     board.cards.forEach((_, index) => {
-
-        // crear un elemento carta con su evento
         const createCard = createCardElement(cssClasName.cardContainer);
         if (createCard) {
-            // Establece el atributo data-indice-array
             createCard.dataset.indiceArray = index.toString();
-            // añade el evento click
             createCard.addEventListener('click', () => {
-                // Obtener el índice del array de la carta
                 const indiceArray = parseInt(createCard.dataset.indiceArray || "0");
-                flippedGetInfoCard(createCard, indiceArray, board); // Pasar la carta correcta del array
-            })
+                flippedGetInfoCard(createCard, indiceArray, board);
+            });
         }
         if (divContainer) {
-            divContainer.appendChild(createCard)
+            divContainer.appendChild(createCard);
         } else {
-            console.log('contenedor no encontrado');
+            console.log('Contenedor no encontrado');
         }
-    })
-}
+    });
+};
 
 
+// Función para manejar el volteo de cartas
+const flippedGetInfoCard = (divCardContainer: HTMLDivElement, index: number, board: Board): void => {
+    if (toMuchTries(cupleTries)) {
+        youLose();
+        return;
+    }
 
-const flippedGetInfoCard = (
-    divCardContainer: HTMLDivElement,
-    index: number,
-    board: Board,
-): void => {
-    // Obtener la carta correspondiente al índice
     const card = board.cards[index];
-
-    // Verificar si la carta se puede voltear
     const canFlip = posibleToFlippedCard(board, index);
 
-    // Si la carta se puede voltear
     if (canFlip) {
-        // Aplica efecto de volteo
-        divCardContainer.classList.add(cssClasName.flipEffect);
+        divCardContainer.classList.add('flipped', 'flip-effect');
         setTimeout(() => {
-            divCardContainer.classList.remove(cssClasName.flipEffect);
-        }, 400);
+            divCardContainer.classList.remove('flip-effect');
+        }, 600);
 
-        // Crear la imagen de la carta
         const imgCard = document.createElement('img');
         imgCard.src = card.infoCard.image;
-
-        // Añadir la imagen al contenedor de la carta
         divCardContainer.appendChild(imgCard);
 
-        // Marcar la carta como volteada
         flipCard(board, index);
 
-        // Verificar si hay dos cartas volteadas después de voltear la carta
         const flippedCards = board.cards.filter(card => card.flipped);
         if (flippedCards.length === 2) {
-            // Obtener los índices de las cartas volteadas
             const flippedIndexes = flippedCards.map(card => board.cards.indexOf(card));
-
-            // Llamar a la función areCouple con los índices de las cartas volteadas
             const isCouple = areCouple(flippedIndexes[0], flippedIndexes[1], board);
 
-            // Si las cartas no son pareja, voltea las cartas de nuevo después de 1seg y setea lo valores de infoCard
             if (!isCouple) {
                 setTimeout(() => {
-                    console.log("No son pareja, volteamos las cartas de nuevo");
-                    // Voltea las cartas de nuevo
+                    noCuple(flippedIndexes[0], flippedIndexes[1], board);
                     flippedCards.forEach(flippedCard => {
-                        const flippedIndex = board.cards.indexOf(flippedCard);
-                        noCuple(flippedIndex, flippedIndex, board);
-
-                        const flippedCardContainer = document.querySelector(`[data-indice-array="${flippedIndex}"]`) as HTMLDivElement;
-
+                        flippedCard.flipped = false;
+                        const flippedCardContainer = document.querySelector(`[data-indice-array="${flippedIndexes[flippedCards.indexOf(flippedCard)]}"]`) as HTMLDivElement;
                         if (flippedCardContainer) {
-                            flippedCardContainer.classList.add(cssClasName.flipEffect);
-                            flippedCardContainer.innerHTML = '';
+                            flippedCardContainer.classList.remove('flipped');
+                            flippedCardContainer.innerHTML = ''; // Remover la imagen de la carta
                         }
                     });
-
-                    // resetamos el tablero
-                    resetBoard(board);
-
+                    board.gameStatus = 'CeroCartasLevantadas';
+                    cupleTries += 1;
+                    updateTriesCounter(); // Actualizar el contador de intentos
+                    youLose();
                 }, 1000);
-
+            } else {
+                board.gameStatus = 'CeroCartasLevantadas';
+                flippedCards.forEach(card => {
+                    if (board.cards.includes(card)) {
+                        card.flipped = false;
+                    }
+                });
+                win = gameComplete(board);
+                if (win) {
+                    victories += 1; // Actualizar el número de victorias
+                    updateVictoriesCounter(); // Actualizar el contador de victorias
+                    showWinModal(); // Mostrar modal de victoria
+                }
+                gamePoints = addGamePoints(gamePoints); // Actualizar el número de juegos ganados
+                updateGamesCounter(); // Actualizar el contador de juegos ganados
+                printAddGames(gamePoints);
+                console.log(win);
             }
         }
     } else {
-        // cuando no se puede volterar una card por que hay más de 2 cartas volteadas
-        console.log('entro en el else');
-        // Si hay dos cartas volteadas y son pareja, permitir al jugador seguir buscando otras parejas
- 
-
+        console.log('No se puede voltear esta carta o el estado del juego no lo permite.');
     }
 };
 
 
 
-// crea un contendor div con un elemento img dentro
-const createCardElement = (
-    nombreClase: string,
-): HTMLDivElement => {
 
+// ? ******************************************
+// ? FUNCIONES DE VERIFICACIÓN
+// Verificar si se excede el número de intentos
+const toMuchTries = (cupleTries: number) => {
+    return cupleTries >= maximunTries;
+};
+
+
+
+// ? ******************************************
+// ? FUNCIONES DE CREACION DE ELEMENTOS
+// Crear elemento de carta
+const createCardElement = (nombreClase: string): HTMLDivElement => {
     const divCard = document.createElement('div');
     divCard.classList.add(nombreClase);
-
     return divCard;
-}
-
-const resetBoard = (board: Board): void => {
-    // Restablecer el estado del tablero después de un breve retraso
-    setTimeout(() => {
-        board.cards.forEach((card) => {
-            card.flipped = false;
-        });
-    }, 1000);
 };
+
+
+// ? ******************************************
+// ? FUNCIONES PARA MODALES
+// Función para crear el modal
+export const createModal = (message: string) => {
+    if (modal.parentNode) {
+        modal.parentNode.removeChild(modal);
+    }
+    if (backdrop.parentNode) {
+        backdrop.parentNode.removeChild(backdrop);
+    }
+
+    backdrop = document.createElement('div');
+    backdrop.setAttribute('id', 'backdrop');
+    backdrop.classList.add('modalBackdrop');
+
+    modal = document.createElement('div');
+    modal.setAttribute('id', 'modal');
+    modal.style.display = 'block';
+    modal.classList.add('modalContainer');
+
+    const modalChildContainer = document.createElement('div');
+    modalChildContainer.classList.add('modalChildContainer');
+    modalChildContainer.textContent = message;
+
+    const modalButton = document.createElement('button');
+    modalButton.classList.add('modalContainerButton');
+    modalButton.textContent = 'Start Game';
+    modalButton.onclick = () => {
+        initializeOrRestartGame();
+        closeModal();
+    };
+
+    modalChildContainer.appendChild(modalButton);
+    modal.appendChild(modalChildContainer);
+
+    mainContainer.appendChild(backdrop);
+    mainContainer.appendChild(modal);
+};
+
+
+// Función para mostrar el modal de victoria
+export const showWinModal = () => {
+    const winMessage = '¡Has Ganado! ¡Felicidades!  🥳 🥳';
+    createModal(winMessage);
+};
+
+// Función para cerrar el modal
+export const closeModal = () => {
+    if (modal.parentNode) {
+        modal.parentNode.removeChild(modal);
+    }
+    if (backdrop.parentNode) {
+        backdrop.parentNode.removeChild(backdrop);
+    }
+};
+
+
+
+// ? ******************************************
+// ? FUNCIONES ACTUALIZACIÓN DE VALORES
+// Función para restablecer el estado del tablero
+export const resetBoard = (board: Board): void => {
+    board.cards.forEach((card) => {
+        card.flipped = false;
+        card.found = false;
+    });
+};
+
+// Función para restablecer el estado del juego
+export const resetState = (): void => {
+    cupleTries = 0;
+    maximunTries = 12;
+    gamePoints = 0;
+    win = false;
+    if (board) {
+        resetBoard(board);
+        board.gameStatus = 'CeroCartasLevantadas';
+    }
+    updateTriesCounter();
+    updateGamesCounter();
+};
+
+// Función que pinta los juegos ganados
+const printAddGames = (gamePoints: number) => {
+    const games_counter = document.getElementById('gamesCounter');
+    if (games_counter && win) {
+        games_counter.textContent = `${gamePoints}`;
+        console.log('Partida completada con éxito');
+    }
+};
+
+// Actualizar el número de intentos
+const updateTriesCounter = () => {
+    const tries_counter = document.getElementById('triesCounter');
+    if (tries_counter) {
+        tries_counter.textContent = `${cupleTries} / ${maximunTries}`;
+    }
+};
+
+const addGamePoints = (gamePoints: number) => {
+    return gamePoints + 1;
+};
+
+// Actualizar el número de juegos ganados
+const updateGamesCounter = () => {
+    const gamesCounter = document.getElementById('gamesCounter');
+    if (gamesCounter) {
+        gamesCounter.textContent = `${gamePoints} / 6`;
+    }
+};
+
+// Actualizar el número de victorias
+const updateVictoriesCounter = () => {
+    const victoriesCounter = document.getElementById('victoriesCounter');
+    if (victoriesCounter) {
+        victoriesCounter.textContent = `${victories}`;
+    }
+};
+
+
+// ? ******************************************
+// ? FUNCIONE DE ANIMACIÓN PARA H1
+export const titleAnimation = () => {
+    const titleElement = document.querySelector('.animated-title') as HTMLElement;
+    const titleText = titleElement.innerText;
+    titleElement.innerHTML = '';
+  
+    titleText.split('').forEach((char, index) => {
+      const span = document.createElement('span');
+      span.innerText = char;
+      span.style.setProperty('--char-index', index.toString());
+  
+      // Aplica para 'h', 'a', y 'l'
+      if (char.toLowerCase() === 'h' || char.toLowerCase() === 'a') {
+        span.classList.add('h');
+      }
+      if (char.toLowerCase() === 'l') {
+        span.classList.add('l');
+      }
+  
+      titleElement.appendChild(span);
+    });
+}
+  
+
+
 
 

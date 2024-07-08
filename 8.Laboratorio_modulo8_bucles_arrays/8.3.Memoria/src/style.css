@@ -1,59 +1,121 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Madimi+One&family=Rubik+Scribble&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Press+Start+2P&display=swap');
+
 
 *{
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
+
+
 :root{
-  --font_family:"Madimi One", sans-serif;
+  /* --font_family:"Madimi One", sans-serif; */
+  --font:"Poppins", sans-serif;
+  --title_font: "Press Start 2P", system-ui;
+
+  --main_color: #ca7fff;
+  --main_color_light: #deb8f9;
+  --secondary_color: #0056b3;
+  --text_color:#0056b3;
+  --background_color:rgb(0, 0, 0);
+  --box-shadow_color: rgba(0, 0, 0, 0.2);
+  --black_transparency_color:rgba(0, 0, 0, 0.887);
 }
+
+
 body{
-  background-color: rgb(29, 29, 29);
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  row-gap: 40px;
-  height: 100vh;
-  padding-top: 40px;
+  background-color: var(--background_color);
+  color: var(--text_color);
+  font-family: var(--title_font);
+  font-size: 13px;
 }
+
 h1{
   font-size: 40px;
-  font-family: var(--font_family);
-  color: rgb(255, 160, 6);
+  color: var(--secondary_color);
+  font-family: var(--title_font);
 }
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 40px;
+  height: fit-content;
+  padding: 100px ;
+  position: relative;
+  z-index: 9;
+}
+
 .start-game{
-  border: 1px solid #ca7fff;
-  width: 80%;
+  border: 1px solid var(--main_color);
+  width: fit-content;
   border-radius: 6px;
   padding: 20px;
   text-align: center;
+  font-family: var(--title_font);
 }
 .start-game:hover{
-  background: #ca7fff;
-  color: black;
+  background: var(--main_color);
+  color: var(--background_color);
 }
+
+
+/* ? **************************** */
+/* ? estilos para las cards */
 .main-cards-container{
-  width: 80%;
+  max-width: 700px;
+  min-width: 500px;
   padding: 10px;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   gap: 10px;
 }
+
 .card-container {
-  border: 2px solid #deb8f9;
+  border: 2px solid var(--secondary_color);
   width: 150px;
   height: 150px;
   border-radius: 10px;
-  background-color: #ca7fff;
+  background-color: var(--main_color);
   display: flex;
   justify-content: center;
   align-items: center;
-  perspective: 1000px; /* Añade perspectiva para efecto 3D */
+  perspective: 1000px;
+  font-family: var(--title_font);
+  font-size: 3em;
+  color: var(--main_color_light);
+  position: relative;
 }
-/* Añade estilos para la animación de giro */
+
+.card-container::before {
+  content: "?";
+  position: absolute;
+  color: var(--main_color_light);
+  font-family: var(--title_font);
+  font-size: 2em;
+}
+
+.card-container.flipped::before {
+  display: none;
+}
+
+.card-container img {
+  display: none;
+}
+
+.card-container.flipped img {
+  display: block;
+  width: 90%;
+  height: 90%;
+  backface-visibility: hidden;
+}
+
 @keyframes flip {
   from {
     transform: rotateY(0deg);
@@ -62,30 +124,235 @@ h1{
     transform: rotateY(180deg);
   }
 }
+
 .flip-effect {
-  animation: flip 0.6s forwards; /* Aplica la animación */
+  animation: flip 0.6s forwards;
 }
 
 .image-card {
   width: 100%;
-  /* Asegúrate de que el giro se vea desde el frente y el dorso */
   backface-visibility: hidden;
 }
 
 
+
+/* ? **************************** */
+/* ? estilos para contadores */
 .counter-container{
-  border: 1px solid gray;
   border-radius: 10px;
-  width: 80%;
-  height: 40px;
+  width: fit-content;
   display: flex;
   justify-content: space-evenly;
   align-self: center;
+  flex-wrap: wrap;
+  column-gap: 32px;
+  row-gap: 16px;
+
 }
 .counter{
-  border: 1px solid rebeccapurple;
-  width: 70px;
+  width: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
+  column-gap: 16px;
+  padding: 24px;
+  border-radius: 10px;
+  color: var(--main_color_light);
+  background-color: var(--secondary_color);
+}
+
+#gamesCounter, #triesCounter, #victoriesCounter{
+  color: white;
+}
+
+
+
+/* ? **************************** */
+/* ? Estilos para el modal */
+.modalContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--secondary_color);
+  padding: 48px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px var(--box-shadow_color);
+  z-index: 1000;
+  width: fit-content;
+  height: fit-content;
+  color: white;
+}
+
+/* Fondo que cubre toda la pantalla para evitar la interacción */
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--black_transparency_color);
+  z-index: 999;
+}
+
+/* Contenedor del contenido del modal */
+.modalChildContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  line-height: 27px;
+  row-gap: 16px;
+}
+
+/* Botón del modal */
+.modalContainerButton {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: white;
+  color: var(--text_color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: fit-content;
+  text-align: center;
+  font-family: "Press Start 2P", system-ui;
+  padding: 16px;
+}
+
+.modalContainerButton:hover {
+  background-color: var(--main_color);
+  color: white;
+}
+
+
+
+/* ? **************************** */
+/* ? Animación título */
+.animated-title {
+  display: inline-block;
+  font-size: 4em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Animacón inicial al cargar la página */
+.animated-title span {
+  display: inline-block;
+  animation: jump 0.5s ease forwards, colorChange 1s ease forwards;
+  animation-delay: calc(0.1s * var(--char-index));
+  cursor: pointer;
+}
+
+/* Animation on hover */
+.animated-title span:hover {
+  animation: rotate 0.6s ease-in-out forwards, colorChangeHover 0.6s ease-in-out forwards;
+}
+
+/* Keyframes para efecto ode salto */
+@keyframes jump {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Keyframes for rotating effect */
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* Keyframes para el cambio de color inicial */
+@keyframes colorChange {
+  0% {
+    color: var(--background_color);
+  }
+  100% {
+    color:var(--main_color);
+  }
+}
+
+/* Keyframes para el hover  */
+@keyframes colorChangeHover {
+  0% {
+    color: var(--secondary_color);
+  }
+  100% {
+    color: var(--main_color);
+  }
+}
+
+
+
+
+/* Mobile Devices */
+@media (max-width: 768px) {
+  .main-container {
+    row-gap: 24px;
+    padding: 24px 16px;
+   background-color: black;
+  }
+
+  .main-cards-container {
+    max-width: 100%;
+    min-width: 100%;
+    padding: 0px;
+  }
+
+  .card-container {
+    width: 100px;
+    height: 100px;
+    font-size: 2em;
+  }
+
+  .counter-container {
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+  }
+
+  .counter {
+    padding: 24px;
+    width: 100%;
+    font-size: 0.8em;
+  }
+  .counter p{
+    min-width: 70px;
+  }
+
+  .start-game {
+    padding: 24px;
+    width: 90%
+  }
+  .start-game:hover{
+    background: none;
+    color: var(--text_color);
+  }
+
+  h1 {
+    width: 90%;
+    text-align: center;
+  }
+
+  .modalContainer {
+    padding: 24px;
+  }
+
+  .modalContainerButton {
+    padding: 8px;
+    font-size: 0.8em;
+  }
 }

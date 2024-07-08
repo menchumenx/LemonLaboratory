@@ -9,18 +9,34 @@
 </head>
 
 <body>
-  <h1>Memory</h1>
+  <div class="main-container" id="main-container">
 
-  <div class="start-game" id="initial-button">START GAME</div>
+    <h1 class="animated-title">MEMORY GAME</h1>
 
-  <div class="counter-container">
-    <div class="counter">1</div>
-    <div class="counter">3</div>
-    <div class="counter">9</div>
+    <div class="counter-container">
+      <div class="counter" >
+        <p class="counter-title">Number of cuples:</p>
+        <p id="gamesCounter">0 / 6</p>
+      </div>
+      <div class="counter" >
+        <p class="counter-title">Number of tries:</p>
+        <p id="triesCounter">0 / 8</p>
+      </div>
+      <div class="counter" >
+        <p class="counter-title">Victories:</p>
+        <p id="victoriesCounter">0</p>
+      </div>
+    </div>
+
+    <div class="start-game" id="start-game-button">START GAME</div>
+
+
+    <!-- contenedor para el grid de cards -->
+    <div class="main-cards-container" id="main-cards-container"></div>
+
   </div>
 
-  <!-- contenedor para el grid de cards -->
-  <div class="main-cards-container" id="main-cards-container"></div>
+  
 
   <script type="module" src="/src/main.ts"></script>
 </body>
