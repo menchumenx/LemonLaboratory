@@ -301,8 +301,8 @@ h1{
 /* Mobile Devices */
 @media (max-width: 768px) {
   .main-container {
-    row-gap: 24px;
-    padding: 24px 16px;
+    row-gap: 32px;
+    padding: 32px 16px;
    background-color: black;
   }
 
@@ -325,7 +325,7 @@ h1{
   }
 
   .counter {
-    padding: 24px;
+    padding: 16px;
     width: 100%;
     font-size: 0.8em;
   }
@@ -349,10 +349,14 @@ h1{
 
   .modalContainer {
     padding: 24px;
+    width: 80%;
   }
 
   .modalContainerButton {
-    padding: 8px;
-    font-size: 0.8em;
+    padding: 16px;
+    width: 90%;
+    background-color: var(--main_color);
+    color: white;
+    
   }
 }

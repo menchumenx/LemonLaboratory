@@ -1,4 +1,4 @@
-import { Board, createInitialBoard, cssClasName } from "./model";
+import { Board, createInitialBoard, cssClasName, Card } from "./model";
 import { areCouple, flipCard, gameComplete, noCuple, posibleToFlippedCard, shuffleCards} from "./motor";
 import { cardsCollection } from "./data";
 
@@ -46,14 +46,6 @@ export const initializeOrRestartGame = () => {
 };
 
 
-// Función para manejar la pérdida del juego
-export const youLose = () => {
-    const tries = toMuchTries(cupleTries);
-    const message = 'Has Perdido 🥹 ¡Comienza una partida nueva!';
-    if (tries) {
-        createModal(message);
-    }
-};
 
 
 // Agregamos un evento de clic al botón de inicio del juego
@@ -93,60 +85,78 @@ const flippedGetInfoCard = (divCardContainer: HTMLDivElement, index: number, boa
     const canFlip = posibleToFlippedCard(board, index);
 
     if (canFlip) {
-        divCardContainer.classList.add('flipped', 'flip-effect');
-        setTimeout(() => {
-            divCardContainer.classList.remove('flip-effect');
-        }, 600);
-
-        const imgCard = document.createElement('img');
-        imgCard.src = card.infoCard.image;
-        divCardContainer.appendChild(imgCard);
-
+        applyFlipEffect(divCardContainer, card);
         flipCard(board, index);
-
-        const flippedCards = board.cards.filter(card => card.flipped);
-        if (flippedCards.length === 2) {
-            const flippedIndexes = flippedCards.map(card => board.cards.indexOf(card));
-            const isCouple = areCouple(flippedIndexes[0], flippedIndexes[1], board);
-
-            if (!isCouple) {
-                setTimeout(() => {
-                    noCuple(flippedIndexes[0], flippedIndexes[1], board);
-                    flippedCards.forEach(flippedCard => {
-                        flippedCard.flipped = false;
-                        const flippedCardContainer = document.querySelector(`[data-indice-array="${flippedIndexes[flippedCards.indexOf(flippedCard)]}"]`) as HTMLDivElement;
-                        if (flippedCardContainer) {
-                            flippedCardContainer.classList.remove('flipped');
-                            flippedCardContainer.innerHTML = ''; // Remover la imagen de la carta
-                        }
-                    });
-                    board.gameStatus = 'CeroCartasLevantadas';
-                    cupleTries += 1;
-                    updateTriesCounter(); // Actualizar el contador de intentos
-                    youLose();
-                }, 1000);
-            } else {
-                board.gameStatus = 'CeroCartasLevantadas';
-                flippedCards.forEach(card => {
-                    if (board.cards.includes(card)) {
-                        card.flipped = false;
-                    }
-                });
-                win = gameComplete(board);
-                if (win) {
-                    victories += 1; // Actualizar el número de victorias
-                    updateVictoriesCounter(); // Actualizar el contador de victorias
-                    showWinModal(); // Mostrar modal de victoria
-                }
-                gamePoints = addGamePoints(gamePoints); // Actualizar el número de juegos ganados
-                updateGamesCounter(); // Actualizar el contador de juegos ganados
-                printAddGames(gamePoints);
-                console.log(win);
-            }
-        }
+        handleFlippedCards(board);
     } else {
         console.log('No se puede voltear esta carta o el estado del juego no lo permite.');
     }
+};
+
+// Aplica el efecto de volteo a la carta
+const applyFlipEffect = (divCardContainer: HTMLDivElement, card: Card) => {
+    divCardContainer.classList.add('flipped', 'flip-effect');
+    setTimeout(() => {
+        divCardContainer.classList.remove('flip-effect');
+    }, 600);
+
+    const imgCard = document.createElement('img');
+    imgCard.src = card.infoCard.image;
+    divCardContainer.appendChild(imgCard);
+};
+
+// Maneja las cartas volteadas
+const handleFlippedCards = (board: Board) => {
+    const flippedCards = board.cards.filter(card => card.flipped);
+    if (flippedCards.length === 2) {
+        const flippedIndexes = flippedCards.map(card => board.cards.indexOf(card));
+        const isCouple = areCouple(flippedIndexes[0], flippedIndexes[1], board);
+
+        if (!isCouple) {
+            handleNonMatchingCards(flippedCards, flippedIndexes, board);
+        } else {
+            handleMatchingCards(flippedCards, board);
+        }
+    }
+};
+
+// Maneja las cartas que no son pareja
+const handleNonMatchingCards = (flippedCards: Card[], flippedIndexes: number[], board: Board) => {
+    setTimeout(() => {
+        noCuple(flippedIndexes[0], flippedIndexes[1], board);
+        flippedCards.forEach(flippedCard => {
+            flippedCard.flipped = false;
+            const flippedCardContainer = document.querySelector(`[data-indice-array="${flippedIndexes[flippedCards.indexOf(flippedCard)]}"]`) as HTMLDivElement;
+            if (flippedCardContainer) {
+                flippedCardContainer.classList.remove('flipped');
+                flippedCardContainer.innerHTML = ''; // Remover la imagen de la carta
+            }
+        });
+        board.gameStatus = 'CeroCartasLevantadas';
+        cupleTries += 1;
+        updateTriesCounter(); // Actualizar el contador de intentos
+        youLose();
+    }, 1000);
+};
+
+// Maneja las cartas que son pareja
+const handleMatchingCards = (flippedCards: Card[], board: Board) => {
+    board.gameStatus = 'CeroCartasLevantadas';
+    flippedCards.forEach(card => {
+        if (board.cards.includes(card)) {
+            card.flipped = false;
+        }
+    });
+    win = gameComplete(board);
+    if (win) {
+        victories += 1; // Actualizar el número de victorias
+        updateVictoriesCounter(); // Actualizar el contador de victorias
+        showWinModal(); // Mostrar modal de victoria
+    }
+    gamePoints = addGamePoints(gamePoints); // Actualizar el número de juegos ganados
+    updateGamesCounter(); // Actualizar el contador de juegos ganados
+    printAddGames(gamePoints);
+    console.log(win);
 };
 
 
@@ -158,6 +168,16 @@ const flippedGetInfoCard = (divCardContainer: HTMLDivElement, index: number, boa
 const toMuchTries = (cupleTries: number) => {
     return cupleTries >= maximunTries;
 };
+
+// Función para manejar la pérdida del juego
+export const youLose = () => {
+    const tries = toMuchTries(cupleTries);
+    const message = 'Has Perdido 🥹 ¡Comienza una partida nueva!';
+    if (tries) {
+        createModal(message);
+    }
+};
+
 
 
 
@@ -242,7 +262,7 @@ export const resetBoard = (board: Board): void => {
 // Función para restablecer el estado del juego
 export const resetState = (): void => {
     cupleTries = 0;
-    maximunTries = 12;
+    maximunTries = 8;
     gamePoints = 0;
     win = false;
     if (board) {
@@ -292,7 +312,7 @@ const updateVictoriesCounter = () => {
 
 
 // ? ******************************************
-// ? FUNCIONE DE ANIMACIÓN PARA H1
+// ? FUNCION DE ANIMACIÓN PARA H1
 export const titleAnimation = () => {
     const titleElement = document.querySelector('.animated-title') as HTMLElement;
     const titleText = titleElement.innerText;
@@ -315,6 +335,11 @@ export const titleAnimation = () => {
     });
 }
   
+
+
+
+
+
 
 
 
