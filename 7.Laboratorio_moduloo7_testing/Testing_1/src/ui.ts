@@ -96,6 +96,7 @@ export function resetGameView(currentDisplay: string): void {
     }
 }
 
+
 // Función para actualizar la interfaz de usuario (DOM) con el mensaje y el icono de game over
 export function updateGameOverUI(mensaje: string, icono: string): void {
     const cardsBox = document.querySelector('.cards') as HTMLElement;
