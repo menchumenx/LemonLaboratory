@@ -1,6 +1,5 @@
 
-
-// Importaciones
+// ? Importaciones
 import { describe, it, expect, vi } from 'vitest';
 
 import {
@@ -19,7 +18,8 @@ import {
 } from "./motor";
 
 
-// agrupacion 1 : dameCarta():number
+// ? ***************************************************************
+// ? agrupacion 1 : dameCarta():number
 describe("dameCarta", () => {
 
     // caso 1
@@ -52,11 +52,11 @@ describe("dameCarta", () => {
 
     })
 
-
 })
 
 
-// agrupacion 2 : getRealValue(random: number): number
+// ? ***************************************************************
+// ? agrupacion 2 : getRealValue(random: number): number
 describe("getRealValue", () => {
 
     it('debería devolver 0.5 si el valor es mayor 0 igual a 10', () => {
@@ -86,7 +86,8 @@ describe("getRealValue", () => {
 })
 
 
-// agrupacion 3 : gameOverLogic(finalScore: number): GameOverResult 
+// ? ***************************************************************
+// ? agrupacion 3 : gameOverLogic(finalScore: number): GameOverResult 
 describe("gameOverLogic", () => {
 
     // caso 1
@@ -123,6 +124,7 @@ describe("gameOverLogic", () => {
         // assert
         expect(resultado).toStrictEqual(resultadoEsperado)
     })
+
 
     // caso 3
     it('debería devolver un objeto GameOverResult con el mensaje: Te ha entrado el canguelo eh? y el icono: MAS_RIESGO, cuando finalScore sea 5', () => {
