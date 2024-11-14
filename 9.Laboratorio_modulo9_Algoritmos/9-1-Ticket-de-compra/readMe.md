@@ -37,7 +37,6 @@ npm run dev
 
 ---
 
-## Estructura de Carpetas
 
 ## Estructura de Carpetas
 
@@ -69,11 +68,11 @@ Este proyecto está organizado en las siguientes carpetas y archivos:
 
 - **ticketCompra/:** Carpeta principal del módulo de cálculo del ticket de compra.
 
-    · index.ts: Punto de entrada que exporta funcionalidades del módulo ticketCompra.
-    · models.ts: Define las interfaces y tipos de datos utilizados en el cálculo del ticket (por ejemplo, LineaTicket, ResultadoTotalTicket).
-    · ticketCompra.helpers.ts: Contiene funciones auxiliares para cálculos específicos en el ticket de compra (como calcularTotalPorTipoIva).
-    · ticketCompra.helpers.spec.ts: Archivo de pruebas unitarias para las funciones en ticketCompra.helpers.ts.
-    · ticketCompra.spec.ts: Archivo de pruebas unitarias para las funciones en ticketCompra.ts, validando el cálculo total del ticket.
+- index.ts: Punto de entrada que exporta funcionalidades del módulo ticketCompra.
+- models.ts: Define las interfaces y tipos de datos utilizados en el cálculo del ticket (por ejemplo, LineaTicket, ResultadoTotalTicket).
+- ticketCompra.helpers.ts: Contiene funciones auxiliares para cálculos específicos en el ticket de compra (como calcularTotalPorTipoIva).
+- ticketCompra.helpers.spec.ts: Archivo de pruebas unitarias para las funciones en ticketCompra.helpers.ts.
+- ticketCompra.spec.ts: Archivo de pruebas unitarias para las funciones en ticketCompra.ts, validando el cálculo total del ticket.
 
 - **ticketCompra.ts:** Contiene la función principal para calcular el ticket de compra completo, incluyendo totales y desglose de IVA.
 
@@ -83,9 +82,9 @@ Este proyecto está organizado en las siguientes carpetas y archivos:
 
 - **.gitignore:** Define los archivos y carpetas que Git debe ignorar, como node_modules/ y archivos de entorno.
 
--- **package-lock.json y package.json:** Administran las dependencias del proyecto y definen scripts útiles, como npm run dev para desarrollo y npm run build para producción.
+- **package-lock.json y package.json:** Administran las dependencias del proyecto y definen scripts útiles, como npm run dev para desarrollo y npm run build para producción.
 
--- **readMe.md:** Documentación general del proyecto que describe la funcionalidad, instalación y uso.
+- **readMe.md:** Documentación general del proyecto que describe la funcionalidad, instalación y uso.
 
 - **tsconfig.json:** Configuración de TypeScript para el proyecto, donde se definen opciones de compilación y restricciones de tipo.
 
@@ -184,7 +183,7 @@ export interface TicketFinal {
 ---
 
 
-### Funciones Principales-> -> src/ticketCompra/ticketCompra.ts
+### Funciones Principales
 
 `**calculaTicket()**`
 
@@ -193,15 +192,12 @@ Calcula el ticket final a partir de una lista de líneas de ticket.
 Esta función toma un array de objetos `LineaTicket`, que representan productos con cantidades específicas, y calcula el ticket completo. Para cada línea, calcula el total con y sin IVA, y genera un desglose del IVA.
 
 **Parámetros**
-
 - **`lineasTicket`** (`LineaTicket[]`): Array de objetos `LineaTicket` que contiene cada producto y su cantidad.
 
 **Retorno**
-
 - **`TicketFinal`**: Objeto `TicketFinal` que contiene el detalle de cada línea del ticket, el total con y sin IVA, y un desglose por tipo de IVA.
 
 **Ejemplo de uso**
-
 ```javascript
 const lineasTicket = [
     { producto: { nombre: "Camiseta", precio: 20, tipoIva: "general" }, cantidad: 2 },
@@ -217,8 +213,6 @@ console.log(ticket);
 //   desgloseIva: [ ...desglose de IVA por tipo... ]
 // }
 ```
-
----
 
 `**calculaLineaTicket()**`
 Calcula los valores de una línea de ticket para un producto y una cantidad específicos.
@@ -245,10 +239,12 @@ const resultado = calculaLineaTicket(producto, cantidad);
 ```
 **Consideraciones**
 Asegúrate de que el tipo de IVA y el cálculo de precioConIva sean consistentes y correctos, especialmente para productos que no llevan IVA (sinIva), donde el precio total no debería cambiar.
+
 **Parámetros**
 - **producto:** Objeto que representa el producto a agregar al ticket, incluyendo nombre, precio y tipo de IVA.
 - **cantidad:** Número de unidades del producto en la línea de ticket.
 - **Retorno:** Objeto ***ResultadoLineaTicket*** con los valores calculados para la línea de ticket.
+
 **Excepciones**
 Lanza un error si producto o cantidad son inválidos (null, undefined o 0).
 
@@ -270,9 +266,11 @@ const precioFinal = calcularPrecioConIva(producto);
 ```
 **Consideraciones**
 Este método se basa en una constante ivaPorcentajes que debe incluir los tipos de IVA válidos y sus respectivos porcentajes. La función devuelve el precio con IVA redondeado a dos decimales usando toFixed(2), para evitar errores de punto flotante. Asegúrate de que el tipo de IVA en el producto esté bien definido y exista en el mapeo de ivaPorcentajes.
+
 **Parámetros**
 - **producto:** Objeto que representa el producto, incluyendo nombre, precio y tipoIva.
 - **Retorno:** Número que representa el precio del producto con IVA aplicado, redondeado a dos decimales.
+
 **Excepciones**
 Lanza un error si producto es null, undefined o no cumple con los atributos requeridos.
 
@@ -303,10 +301,13 @@ const totalPorTipoIva = calcularTotalPorTipoIva(lineasTicket);
 
 **Consideraciones**
 Este método asume que cada objeto en lineasTicket tiene un producto con un tipoIva válido. El cálculo de la cuantía por tipo de IVA se basa únicamente en la cantidad de cada línea del ticket, sin considerar el precio del producto. Asegúrate de que el tipo de IVA en cada línea esté bien definido y que lineasTicket no esté vacío o nulo.
+
 **Parámetros**
-**lineasTicket (LineaTicket[]):** Array de objetos LineaTicket que contiene cada producto y su cantidad en el ticket.
+- **lineasTicket (LineaTicket[]):** Array de objetos LineaTicket que contiene cada producto y su cantidad en el ticket.
+
 **Retorno**
-**TotalPorTipoIva[]:** Array de objetos TotalPorTipoIva, donde cada objeto representa un tipo de IVA y su cuantía total en el ticket.
+TotalPorTipoIva[]:Array de objetos TotalPorTipoIva, donde cada objeto representa un tipo de IVA y su cuantía total en el ticket.
+
 **Excepciones**
 Lanza un error si lineasTicket es null, undefined, o un array vacío.
 
@@ -337,13 +338,16 @@ const resultadoTotal = calculaResultadoTotalTicket(lineasTicket);
 **Consideraciones**
 Este método asume que cada objeto en lineasTicket tiene un producto con un `tipoIva` válido y un precio definido. 
 La función utiliza el método `calculaLineaTicket()` para obtener los precios con y sin IVA por cada línea. Finalmente, el total de IVA (totalIva) se calcula como la diferencia entre totalConIva y totalSinIva, y cada total se redondea a dos decimales utilizando toFixed(2).
+
 **Parámetros**
-**lineasTicket (LineaTicket[]):** Array de objetos LineaTicket que contiene cada producto y su cantidad en el ticket.
+- **lineasTicket (LineaTicket[]):**Array de objetos LineaTicket que contiene cada producto y su cantidad en el ticket.
+
 **Retorno**
-**ResultadoTotalTicket:** Objeto con los totales del ticket.
-**totalSinIva (number): **Total acumulado sin IVA.
-**totalConIva (number):** Total acumulado con IVA.
-**totalIva (number):** Cuantía total de IVA aplicada.
+ResultadoTotalTicket: Objeto con los totales del ticket.
+totalSinIva (number):Total acumulado sin IVA.
+totalConIva (number):Total acumulado con IVA.
+totalIva (number): Cuantía total de IVA aplicada.
+
 **Excepciones**
 Lanza un error si lineasTicket es null, undefined, o un array vacío.
 
