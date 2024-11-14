@@ -67,7 +67,15 @@ export const calculaLineaTicket = (
 
 
 
-// TODO: documentación 
+/**
+ * ? Calcula el total acumulado por cada tipo de IVA en una lista de líneas de ticket.
+ * 
+ * * Validación: Lanza un error si el parámetro `lineasTicket` es `null`, `undefined` o un array vacío.
+ * 
+ * @param lineasTicket - Array de objetos `LineaTicket` que contiene cada producto y su cantidad en el ticket.
+ * @returns Array de objetos `TotalPorTipoIva`, donde cada objeto representa un tipo de IVA y la cuantía total para ese tipo.
+ * @throws Error - Si `lineasTicket` es inválido (null, undefined o un array vacío).
+ */
 export const calcularTotalPorTipoIva = (
     lineasTicket: LineaTicket[]
 ): TotalPorTipoIva[] => {
@@ -101,7 +109,15 @@ export const calcularTotalPorTipoIva = (
 };
 
 
-// TODO: documentación 
+/**
+ * ? Calcula los totales acumulados de un ticket, incluyendo el total sin IVA, el total con IVA, y el total de IVA aplicado.
+ * 
+ * * Validación: Lanza un error si el parámetro `lineasTicket` es `null`, `undefined` o un array vacío.
+ * 
+ * @param lineasTicket - Array de objetos `LineaTicket` que contiene cada producto y su cantidad en el ticket.
+ * @returns Objeto `ResultadoTotalTicket` con los valores calculados: `totalSinIva`, `totalConIva`, y `totalIva`.
+ * @throws Error - Si `lineasTicket` es inválido (null, undefined o un array vacío).
+ */
 export const calculaResultadoTotalTicket = (lineasTicket: LineaTicket[]): ResultadoTotalTicket => {
     if (!lineasTicket || lineasTicket.length === 0) {
         throw new Error("Los parámetros introducidos no son correctos");

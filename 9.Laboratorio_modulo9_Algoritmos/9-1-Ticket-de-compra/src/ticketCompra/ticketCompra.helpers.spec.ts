@@ -4,7 +4,6 @@ import {
     calculaLineaTicket, 
     calcularPrecioConIva, 
     calculaResultadoTotalTicket, 
-    calcularTotalPorTipoIva 
 } from './ticketCompra.helpers';
 import { LineaTicket, Producto, TipoIva } from './models';
 
