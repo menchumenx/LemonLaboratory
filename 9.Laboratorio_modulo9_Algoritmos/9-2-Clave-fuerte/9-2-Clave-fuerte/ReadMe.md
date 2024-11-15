@@ -40,6 +40,7 @@ npm run dev
 
 ## Estructura de Carpetas
 
+```plaintext
 9-2-Clave-fuerte/
 ├── node_modules/
 ├── public/
@@ -61,6 +62,7 @@ npm run dev
 ├── package.json
 ├── readMe.md
 └── tsconfig.json
+```
 
 ---
 
