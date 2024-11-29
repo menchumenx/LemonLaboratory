@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Asset&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Press+Start+2P&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Asset&family=Lexend+Deca:wght@100..900&family=Lexend:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Press+Start+2P&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+:root {
+    --bg-color: #260101;
+    --bg-cards: #F2E9D8;
+    --color-primary: #D92818;
+    --color-secondary: #D97B29;
+    --color-details: #467319;
+    --font-family: "Roboto", sans-serif;
+    --font-family-title: "Asset", serif;
+}
+
+body {
+    height: 100vh;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-style: normal;
+    line-height: 1.2;
+    background-color: var(--bg-color);
+    overflow: hidden;
+    color: var(--bg-cards);
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    font-family: var(--font-family-title);
+}
+
+button {
+    display: inline-block;
+    background-color: var(--color-primary);
+    color: var(--bg-cards);
+    width: 150px;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--color-secondary);
+    box-shadow: 0 0 8px #d97b2990;
+}
+
+form {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 8px;
+
+}
+
+/* Estilos generales para el select */
+select {
+    width: 40%;
+    border: 1px solid var(--color-primary);
+    border-radius: 6px;
+    padding: 8px;
+    background-color: black;
+    color: rgb(103, 103, 103);
+    font-family: var(--font-family);
+    outline: none;
+    transition: border-color 0.3s ease;
+    /* appearance: none; Para uniformizar el estilo en navegadores */
+}
+
+select::placeholder {
+    color: #f2e9d8ae;
+    font-family: var(--font-family);
+    font-weight: 300;
+}
+
+select:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 8px #d97b2990;
+}
+
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    height: 100vh;
+    overflow-y: scroll;
+    position: relative;
+}
+
+/* titulo de página */
+.contenedor-h1 {
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 32px;
+}
+
+/* caja de busqueda */
+.findBox-container {
+    width: 85%;
+    display: flex;
+    justify-content: flex-end;
+    transition: all 3s ease-in-out;
+}
+
+/* Perosnajes-LISTADO */
+.listado-personajes {
+    width: 95%;
+    margin: 24px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    row-gap: 16px;
+    column-gap: 16px;
+    flex-wrap: wrap;
+}
+
+.personaje-card {
+    width: 300px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 6px;
+    text-align: left;
+    box-shadow: 3px 3px 15px rgba(81, 81, 81, 0.187);
+}
+
+.personaje-card img {
+    max-width: 100%;
+    height: 230px;
+    margin: 0px auto;
+}
+
+.character-info-container {
+    width: 100%;
+    height: 140px;
+    padding: 16px 24px;
+    border-top: 1px solid #ddd;
+}
+
+.character-name {
+    color: var(--color-secondary);
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.character-speciality,
+.character-skills-container {
+    color: rgb(84, 84, 84);
+    font-weight: lighter;
+    margin-bottom: 4px;
+}
+
+.highlight {
+    font-weight: 300;
+}
