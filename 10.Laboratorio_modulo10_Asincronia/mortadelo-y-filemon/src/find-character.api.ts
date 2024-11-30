@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Character, urlApiCharacters } from "./caracter.model";
+import { Character, urlApiCharacters } from "./character.model";
 
 // Endpoint que trae todos los personajes del API
 export const getAllCharacters = async(): Promise<Character[]> => {

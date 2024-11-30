@@ -1,8 +1,7 @@
+import { Character } from "./character.model";
+import { getAllCharacters, getCharacterByName } from "./find-character.api";
 
 
-
-import { Character } from "./caracter.model";
-import { getAllCharacters, getCharacterByName } from "./find-caracter.api";
 
 // CREAR ELEMENTO IMAGEN
 const createImageElement = (
@@ -19,6 +18,7 @@ const createImageElement = (
     return image;
 };
 
+
 // CREAR ELEMENTO PARRAFO
 const createParagraphElement = (
     text: string,
@@ -34,6 +34,7 @@ const createParagraphElement = (
     }
     return paragraph;
 };
+
 
 // CREAR CONTENEDOR PARA MOSTRAR INFORMACION DE LOS CADA PERSONAJE
 const createCharacterInfoContainer = (character: Character) => {
@@ -101,7 +102,7 @@ const createCharacterContainer = (character: Character): HTMLDivElement => {
             characterElement.appendChild(characterImage);
         } else { console.log("error al crear elemento characterImage") };
 
-        // ? contenedor de información en texto
+        // Contenedor de información en texto
         const characterInfoContainer = createCharacterInfoContainer(character)
         characterElement.appendChild(characterInfoContainer)
 
@@ -144,7 +145,7 @@ const readSelectValue = (selectId: string): string => {
 };
 
 
-
+// MÉTODO PARA IMPRIMIR TODS LOS PERSONAJES EN LA VISTA
 const prinCharacters = async () => {
 
     try {
@@ -170,7 +171,7 @@ const prinCharacters = async () => {
 }
 
 
-
+// MÉTODO QUE IMPRIME EL PERSONAJE RECIBIDO POR PARÁMETRO EN LA VISTA
 const printCharacterByName = async (event: Event) => {
     event.preventDefault(); 
 
@@ -187,7 +188,7 @@ const printCharacterByName = async (event: Event) => {
             characterListElement.appendChild(characterContainer);
         } else {
             throw new Error("No se ha encontrado el contenedor characterListElement");
-        }
+        };
 
     } catch (error) {
         alert(error);
@@ -196,7 +197,7 @@ const printCharacterByName = async (event: Event) => {
 
 
 
-
+// METODO PARA GESTIONAR QUE MOSTRAR SEGUN SI SE RECIBE UN EVENTO O NO
 const printCards = (event?: Event) => {
     if (event) {
         printCharacterByName(event);
@@ -206,7 +207,7 @@ const printCards = (event?: Event) => {
 };
 
 
-
+// CARGA INICIAL
 document.addEventListener("DOMContentLoaded", () => {
     populateCharacterSelect();
 
